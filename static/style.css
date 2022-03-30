@@ -1,0 +1,29 @@
+body {
+    background-color: #f3e5f5;
+    font-family: 'Courier New', monospace;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 15px 10px;
+}
+
+.item {
+    padding: 4px;
+}
+
+img {
+    border-radius: 25px;
+    box-shadow: 10 10px 15px 8px rgba(0,0,0,0.06);
+    width: 640px;
+    height: 300px;
+    
+  }
+
+  .card {
+      color: rgb(65, 65, 255);
+  }
+
+ 

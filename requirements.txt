@@ -1,0 +1,8 @@
+flask_sqlalchemy
+flask_login
+flask
+requests
+python-dotenv
+werkzeug
+psycopg2
+APScheduler

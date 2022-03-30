@@ -22,6 +22,7 @@ from flask import (
     flash,
     Blueprint,
 )
+from apscheduler.schedulers.blocking import BlockingScheduler
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import find_dotenv, load_dotenv
 
@@ -283,6 +284,25 @@ def selections():
         img=img_list,
         name_len=name_len,
     )
+
+
+sched = BlockingScheduler()
+# @sched.scheduled_job("cron", day_of_week="mon", hour=23)
+@sched.scheduled_job("interval", minutes=5)
+def scheduled_job():
+
+    names_lists, img_lists = spotify_api()
+    TopArtists.query.delete()
+    db.session.commit()
+    for i in range(50):
+        artist_entry = TopArtists(
+            ranking=50 - i, artist_name=names_lists[i], artist_image=img_lists[i]
+        )
+        db.session.add(artist_entry)
+        db.session.commit()
+
+
+sched.start()
 
 
 app.register_blueprint(bp)

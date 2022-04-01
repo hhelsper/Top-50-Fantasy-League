@@ -10,31 +10,33 @@ import './App.css';
 
 function App() {
 
-  console.log('1');
+
 
   const [list, setList] = useState([]);
-  const [list2, setList2] = useState([]);
+  const [selectedList, setSelectedList] = useState([]);
 
   useEffect(async () => {
     const artistsList = await axios(
       '/get_artists',
     );
-    console.log({ artistsList });
-    console.log('1');
+
 
     setList(artistsList.data);
   }, []);
 
   function selectArtist(id) {
-    const selectedList = list2.concat((id));
-
-    setList2(selectedList);
+    if (selectedList.length !== 5) {
+      const selectedArtistList = selectedList.concat((id));
+      setSelectedList(selectedArtistList);
+    }
 
   }
-  // function removeArtist(id) {
-  //   const newList = list2.filter((artist) => artist.id !== id);
-  //   setList2(newList)
-  // }
+  function removeArtist(id) {
+    const removedList = selectedList.filter((artist) => artist !== id);
+
+    setSelectedList(removedList);
+
+  }
 
 
 
@@ -54,7 +56,7 @@ function App() {
         method="POST"
         action="/save_artists"
       >
-        <input type="hidden" name="artists_list" value={list2} />
+        <input type="hidden" name="artists_list" value={selectedList} />
         <div className="mb-2">
           <center>
             <Button variant="primary" size="lg" type="submit">
@@ -67,7 +69,7 @@ function App() {
       <br></br>
       <br></br>
       <div class="container">
-        <List list={list} onSelect={selectArtist} />
+        <List list={list} onSelect={selectArtist} onRemove={removeArtist} selectedListLength={selectedList.length} />
       </div>
       <br></br>
       <br></br>
@@ -79,25 +81,25 @@ function App() {
   );
 }
 
-function List({ list, onSelect }) {
+function List({ list, onSelect, onRemove, selectedListLength }) {
   return (
     <div class="container">
-      {list.map((artist) => <Artist key={artist.id} artist={artist} onSelect={onSelect} />)}
+      {list.map((artist) => <Artist key={artist.id} artist={artist} onSelect={onSelect} onRemove={onRemove} selectedListLength={selectedListLength} />)}
     </div>
   );
 }
 
-function Artist({ artist, onSelect }) {
+function Artist({ artist, onSelect, onRemove, selectedListLength }) {
   const [show, toggleShow] = useState(true);
   return (
     <>{!show &&
 
-      <Card style={{ borderRadius: '8%', boxShadow: '10 10px 15px 8px rgba(0,0,0,0.06)', backgroundColor: "rgb(226, 209, 52)" }}>
+      <Card style={{ borderRadius: '8%', boxShadow: '10 10px 15px 8px rgba(0,0,0,0.06)', backgroundColor: "rgb(255, 235, 51)" }}>
         <Card.Img variant="top" src={artist.artist_img} style={{ borderRadius: '8%' }} />
         <Card.Body>
           <Card.Text> {artist.artist_name}</Card.Text>
           <Button variant="primary"
-          //onClick={() => { onRemove(artist.id); toggleShow(true) }}
+            onClick={() => { onRemove(artist.id); toggleShow(true) }}
           >Select</Button>
         </Card.Body>
       </Card>
@@ -107,7 +109,11 @@ function Artist({ artist, onSelect }) {
         <Card.Img variant="top" src={artist.artist_img} style={{ borderRadius: '8%' }} />
         <Card.Body>
           <Card.Text> {artist.artist_name}</Card.Text>
-          <Button variant="primary" onClick={() => { onSelect(artist.id); toggleShow(false) }}>Select</Button>
+          <Button variant="primary" onClick={() => {
+            if (selectedListLength !== 5) {
+              onSelect(artist.id); toggleShow(false);
+            }
+          }}>Select</Button>
         </Card.Body>
       </Card>}
     </>

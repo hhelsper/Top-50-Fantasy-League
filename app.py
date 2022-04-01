@@ -63,6 +63,7 @@ class User(UserMixin, db.Model):
     __tablename__ = "user"
     user_id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(120), nullable=False)
     artist_names = db.Column(db.ARRAY(db.String(120)), nullable=True)
     artist_images = db.Column(db.ARRAY(db.String(120)), nullable=True)
@@ -208,15 +209,18 @@ def signup():
     if request.method == "POST":
         user_name = request.form.get("user_name")
         password = request.form.get("password")
+        email = request.form.get("email")
 
-    user = User.query.filter_by(user_name=user_name).first()
+    user = User.query.filter_by(email=email).first()
 
     if user:
         flash("Email address already exists. Try logging in")
         return redirect(url_for("login"))
 
     new_user = User(
-        user_name=user_name, password=generate_password_hash(password, method="sha256")
+        user_name=user_name,
+        email=email,
+        password=generate_password_hash(password, method="sha256"),
     )
 
     db.session.add(new_user)
@@ -238,14 +242,14 @@ def login_post():
     if request.form.get("signup") == "signup":
         return render_template("signup.html")
 
-    user_name = request.form.get("user_name")
+    email = request.form.get("email")
     password = request.form.get("password")
     remember = True if request.form.get("remember") else False
-    if user_name == "":
+    if email == "":
         flash("Please check your login details and try again.")
         return redirect(url_for("login"))
 
-    user = User.query.filter_by(user_name=user_name).first()
+    user = User.query.filter_by(email=email).first()
     # if statement checks if username is in db and password for that user matches
     if not user or not check_password_hash(user.password, password):
         flash("Please check your login details and try again.")
@@ -276,8 +280,7 @@ def profile():
 @bp.route("/selection", methods=["POST", "GET"])
 @login_required
 def index():
-    # NB: DO NOT add an "index.html" file in your normal templates folder
-    # Flask will stop serving this React page correctly
+
     return render_template("index.html")
 
 

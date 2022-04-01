@@ -187,6 +187,15 @@ db.create_all()
 @app.route("/", methods=["POST", "GET"])
 def hello_world():
     """Returns root endpoint HTML"""
+    names_lists, img_lists = spotify_api()
+    TopArtists.query.delete()
+    db.session.commit()
+    for i in range(50):
+        artist_entry = TopArtists(
+            ranking=50 - i, artist_name=names_lists[i], artist_image=img_lists[i]
+        )
+        db.session.add(artist_entry)
+        db.session.commit()
 
     return render_template(
         "login.html",
@@ -243,8 +252,33 @@ def login_post():
         return redirect(url_for("login"))
 
     login_user(user, remember=remember)
+    if user.artist_names is None:
+        return redirect("/selection")
+    else:
+        return redirect("/profile")
 
-    return redirect("/selections")
+
+@app.route("/profile")
+@login_required
+def profile():
+    user = User.query.filter_by(user_name=current_user.user_name).first()
+
+    return render_template(
+        "profile.html",
+        artist_names=user.artist_names,
+        artist_images=user.artist_images,
+        username=current_user.user_name,
+        weekly_sc=user.weekly_score,
+    )
+
+
+# route for serving React page
+@bp.route("/selection", methods=["POST", "GET"])
+@login_required
+def index():
+    # NB: DO NOT add an "index.html" file in your normal templates folder
+    # Flask will stop serving this React page correctly
+    return render_template("index.html")
 
 
 @app.route("/logout")
@@ -255,12 +289,61 @@ def logout():
     return redirect(url_for("login"))
 
 
-# route for serving React page
-@bp.route("/selection")
-def index():
-    # NB: DO NOT add an "index.html" file in your normal templates folder
-    # Flask will stop serving this React page correctly
-    return render_template("index.html")
+@bp.route("/get_artists", methods=["GET"])
+def get_artists():
+    """Function to pass all artists to react page in a json"""
+    artists_info = TopArtists.query.all()
+    info_len = len(artists_info)
+    artist_list = []
+    print(info_len)
+
+    for i in range(info_len):
+        artist_list.append(
+            {
+                "id": artists_info[i].id,
+                "artist_name": artists_info[i].artist_name,
+                "artist_img": artists_info[i].artist_image,
+                "artist_rank": artists_info[i].ranking,
+            }
+        )
+    random.shuffle(artist_list)
+    return jsonify(artist_list)
+
+
+@bp.route("/save_artists", methods=["POST"])
+def deleted_comments():
+    """Function takes in list of deleted comments IDs and deletes them from DB"""
+    if request.method == "POST":
+        artists_list = request.form.get("artists_list")
+
+        # creates list of ints out of string of IDs seperated by commas passed back from react page
+        a_list = [int(s) for s in artists_list.split(",")]
+        user = User.query.filter_by(user_name=current_user.user_name).first()
+        list_of_imgs = []
+        list_of_names = []
+        weekly_score = 0
+
+        for i in range(len(a_list)):
+            artist_info = TopArtists.query.filter_by(id=a_list[i]).first()
+            list_of_names.append(artist_info.artist_name)
+            list_of_imgs.append(artist_info.artist_image)
+            weekly_score = weekly_score + artist_info.ranking
+        user.weekly_score = weekly_score
+        db.session.commit()
+        user.artist_names = list_of_names
+        db.session.commit()
+        user.artist_images = list_of_imgs
+        db.session.commit()
+
+        user = User.query.filter_by(user_name=current_user.user_name).first()
+
+    return render_template(
+        "profile.html",
+        artist_names=user.artist_names,
+        artist_images=user.artist_images,
+        username=current_user.user_name,
+        weekly_sc=user.weekly_score,
+    )
 
 
 @app.route("/selections")
@@ -286,9 +369,12 @@ def selections():
     )
 
 
-sched = BlockingScheduler()
-# @sched.scheduled_job("cron", day_of_week="mon", hour=23)
-@sched.scheduled_job("interval", minutes=5)
+# sched = BlockingScheduler()
+
+
+# # @sched.add_job("cron", day_of_week="mon", hour=23)
+
+
 def scheduled_job():
 
     names_lists, img_lists = spotify_api()
@@ -302,7 +388,8 @@ def scheduled_job():
         db.session.commit()
 
 
-sched.start()
+# sched.add_job(scheduled_job, "interval", seconds=5)
+# sched.start()
 
 
 app.register_blueprint(bp)

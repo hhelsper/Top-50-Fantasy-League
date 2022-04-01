@@ -1,6 +1,7 @@
 body {
-    background-color: #f3e5f5;
-    font-family: 'Courier New', monospace;
+    background-color: rgb(245, 245, 245);
+    font-family: 'Garamond';
+    margin: 14px;
 }
 
 .container {
@@ -8,6 +9,12 @@ body {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     gap: 15px 10px;
+}
+
+.container2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 0px;
 }
 
 .item {
@@ -26,4 +33,24 @@ img {
       color: rgb(65, 65, 255);
   }
 
+  nav{
+    padding-left: 25px;
+    padding-right: 25 px;
+    border-radius: 25px;
+    background-color: black;
+    box-shadow: 5px 5px 8px 2px rgba(100, 100, 100, 0.8);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15pt;
+}
+
+.navigator{
+    width: 105px;
+    height: 60px;
+  }
+
+  .navbar-right{
+    position: fixed;
+    top: 32px;
+    right: 40px;/*pixels away from the right of the navbar*/
+  }
  

@@ -1,11 +1,13 @@
 .App {
-  text-align: center;
+  background-color: rgb(245, 245, 245);
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -36,3 +38,28 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  display: grid;
+  grid-template-columns: 17rem 17rem 17rem 17rem;
+  grid-gap: 3rem;
+  grid-auto-flow: row;
+}
+
+.item {
+  padding: 4px;
+}
+
+img {
+  border-radius: 25px;
+  box-shadow: 10 10px 15px 8px rgba(0,0,0,0.06);
+  width: 640px;
+  height: 300px;
+}
+
+.head{
+  font-size: "80pt";
+  font-family: 'Staatliches', cursive;
+  color: rgb(22, 22, 22);
+}
+

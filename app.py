@@ -22,10 +22,9 @@ from flask import (
     flash,
     Blueprint,
 )
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import find_dotenv, load_dotenv
-
 from spotify import spotify_api
 
 app = Flask(__name__)
@@ -86,25 +85,6 @@ class User(UserMixin, db.Model):
 def load_user(user_id):
     """Neccessary function for Flask Login"""
     return User.query.get(int(user_id))
-
-
-# SIZE = 50
-
-
-# class UsersScoresType(TypeDecorator):
-
-#     impl = sqlalchemy.Text(SIZE)
-
-#     def process_bind_param(self, value, dialect):
-#         if value is not None:
-#             value = json.dumps(value)
-
-#         return value
-
-#     def process_result_value(self, value, dialect):
-#         if value is not None:
-#             value = json.loads(value)
-#         return value
 
 
 class League(db.Model):
@@ -188,15 +168,17 @@ db.create_all()
 @app.route("/", methods=["POST", "GET"])
 def hello_world():
     """Returns root endpoint HTML"""
-    names_lists, img_lists = spotify_api()
-    TopArtists.query.delete()
-    db.session.commit()
-    for i in range(50):
-        artist_entry = TopArtists(
-            ranking=50 - i, artist_name=names_lists[i], artist_image=img_lists[i]
-        )
-        db.session.add(artist_entry)
-        db.session.commit()
+    # names_lists, img_lists = spotify_api()
+    # TopArtists.query.delete()
+    # db.session.commit()
+    # for i in range(len(names_lists)):
+    #     artist_entry = TopArtists(
+    #         ranking=len(names_lists) - i,
+    #         artist_name=names_lists[i],
+    #         artist_image=img_lists[i],
+    #     )
+    #     db.session.add(artist_entry)
+    #     db.session.commit()
 
     return render_template(
         "login.html",
@@ -372,14 +354,8 @@ def selections():
     )
 
 
-# sched = BlockingScheduler()
-
-
-# # @sched.add_job("cron", day_of_week="mon", hour=23)
-
-
-def scheduled_job():
-
+def weekly_database_update():
+    # print('This job is run every monday at 11pm.')
     names_lists, img_lists = spotify_api()
     TopArtists.query.delete()
     db.session.commit()
@@ -389,10 +365,24 @@ def scheduled_job():
         )
         db.session.add(artist_entry)
         db.session.commit()
+    user = User.query.all()
+    for x in range(len(user)):
+        new_weekly_score = 0
+        if user[x].artist_names is not None:
+            user_art_names = user[x].artist_names
+            for y in range(len(user_art_names)):
+                if (
+                    TopArtists.query.filter_by(artist_name=user_art_names[y])
+                    is not None
+                ):
+                    artist = TopArtists.query.filter_by(artist_name=user_art_names[y])
+                    new_weekly_score = new_weekly_score + artist.ranking
+        user[x].weekly_score = new_weekly_score
 
 
-# sched.add_job(scheduled_job, "interval", seconds=5)
-# sched.start()
+sched = BackgroundScheduler()
+sched.add_job(weekly_database_update, "cron", day_of_week="mon", hour=23)
+sched.start()
 
 
 app.register_blueprint(bp)

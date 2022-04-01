@@ -25,9 +25,6 @@ def spotify_api():
 
     access_token = token_response_data["access_token"]
 
-    # expires_in = token_response_data["expires_in"]
-    # token_type = token_response_data["token_type"]
-
     headers = {"Authorization": f"Bearer {access_token}"}
 
     endpoint = "https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M"
@@ -45,8 +42,8 @@ def spotify_api():
         res_json = res.json()
 
         img_url = res_json["images"][1]["url"]
-        img_list.append(img_url)
-
-        names_list.append(artist)
+        if img_url not in img_list and artist not in names_list:
+            img_list.append(img_url)
+            names_list.append(artist)
 
     return names_list, img_list

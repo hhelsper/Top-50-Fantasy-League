@@ -359,9 +359,11 @@ def weekly_database_update():
     names_lists, img_lists = spotify_api()
     TopArtists.query.delete()
     db.session.commit()
-    for i in range(50):
+    for i in range(len(names_lists)):
         artist_entry = TopArtists(
-            ranking=50 - i, artist_name=names_lists[i], artist_image=img_lists[i]
+            ranking=len(names_lists) - i,
+            artist_name=names_lists[i],
+            artist_image=img_lists[i],
         )
         db.session.add(artist_entry)
         db.session.commit()

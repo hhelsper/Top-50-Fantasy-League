@@ -358,7 +358,6 @@ def weekly_database_update():
     for x in range(len(user)):
         new_weekly_score = 0
         if user[x].artist_names is not None:
-            print(user[x].user_name)
             user_art_names = user[x].artist_names
             for y in range(len(user_art_names)):
                 if (
@@ -369,10 +368,8 @@ def weekly_database_update():
                     artist = TopArtists.query.filter_by(
                         artist_name=user_art_names[y]
                     ).first()
-                    print(artist.artist_name)
                     new_weekly_score = new_weekly_score + artist.ranking
 
-        print(new_weekly_score)
         user[x].weekly_score = new_weekly_score
 
 

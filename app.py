@@ -29,10 +29,7 @@ from spotify import spotify_api
 
 app = Flask(__name__)
 
-# set up a separate route to serve the index.html file generated
-# by create-react-app/npm run build.
-# By doing this, we make it so you can paste in all your old app routes
-# from Milestone 2 without interfering with the functionality here.
+
 bp = Blueprint(
     "bp",
     __name__,
@@ -93,11 +90,6 @@ class League(db.Model):
     __tablename__ = "league"
     id = db.Column(db.Integer, primary_key=True)
     league_name = db.Column(db.String(120), nullable=False)
-    # users_and_scores = db.Column(UsersScoresType())
-    # users of type string
-    # scores of type int
-
-    # users in array
     user_names = db.Column(db.ARRAY(db.String(120)), nullable=True)
     max_score = db.Column(db.Integer, nullable=True)
     winner = db.Column(db.String(120), nullable=True)
@@ -168,17 +160,6 @@ db.create_all()
 @app.route("/", methods=["POST", "GET"])
 def hello_world():
     """Returns root endpoint HTML"""
-    # names_lists, img_lists = spotify_api()
-    # TopArtists.query.delete()
-    # db.session.commit()
-    # for i in range(len(names_lists)):
-    #     artist_entry = TopArtists(
-    #         ranking=len(names_lists) - i,
-    #         artist_name=names_lists[i],
-    #         artist_image=img_lists[i],
-    #     )
-    #     db.session.add(artist_entry)
-    #     db.session.commit()
 
     return render_template(
         "login.html",

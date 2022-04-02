@@ -274,6 +274,12 @@ def logout():
     return redirect(url_for("login"))
 
 
+@app.route("/paypal")
+@login_required
+def paypal():
+    return render_template("paypal.html")
+
+
 @bp.route("/get_artists", methods=["GET"])
 def get_artists():
     """Function to pass all artists to react page in a json"""

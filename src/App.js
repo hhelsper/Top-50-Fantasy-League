@@ -38,6 +38,14 @@ function App() {
 
   }
 
+  const onSubmit = (event) => {
+
+    if (selectedList.length !== 5) {
+      event.preventDefault()
+      alert("Make sure to select 5 artists");
+    }
+  }
+
 
 
   return (
@@ -52,7 +60,7 @@ function App() {
       <br></br>
       <br></br>
       <br></br>
-      <form
+      <form onSubmit={onSubmit}
         method="POST"
         action="/save_artists"
       >

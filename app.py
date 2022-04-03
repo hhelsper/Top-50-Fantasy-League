@@ -292,7 +292,6 @@ def get_artists():
             }
         )
     random.shuffle(artist_list)
-    print(artist_list)
     return jsonify(artist_list)
 
 

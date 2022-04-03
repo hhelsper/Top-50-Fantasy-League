@@ -373,7 +373,6 @@ def weekly_database_update():
                     TopArtists.query.filter_by(artist_name=user_art_names[y]).first()
                     is not None
                 ):
-
                     artist = TopArtists.query.filter_by(
                         artist_name=user_art_names[y]
                     ).first()

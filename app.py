@@ -174,10 +174,19 @@ def signup():
         password = request.form.get("password")
         email = request.form.get("email")
 
+    if len(user_name) == 0 or len(email) == 0 or len(password) == 0:
+        flash("Please enter a username, email, and password")
+        return render_template("signup.html")
+
     user = User.query.filter_by(email=email).first()
+    user_n = User.query.filter_by(user_name=user_name).first()
+
+    if user_n:
+        flash("Username already exists. Try choosing another one")
+        return render_template("signup.html")
 
     if user:
-        flash("Email address already exists. Try logging in")
+        flash("Email address already exists. Try logging in.")
         return redirect(url_for("login"))
 
     new_user = User(

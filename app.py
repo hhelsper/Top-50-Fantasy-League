@@ -261,7 +261,7 @@ def index():
 def logout():
     """Function to log user  out and redirect to login page"""
     logout_user()
-    return redirect(url_for("login"))
+    return render_template("login.html", modal="Thanks for playing! See you next time.")
 
 
 @app.route("/paypal")

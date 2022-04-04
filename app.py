@@ -336,29 +336,6 @@ def deleted_comments():
     )
 
 
-@app.route("/selections")
-def selections():
-    names_lists, img_lists = spotify_api()
-    artist_and_img = {}
-    names_list = []
-    img_list = []
-    for i in range(50):
-        artist_and_img[names_lists[i]] = img_lists[i]
-    keys = list(artist_and_img.keys())
-    random.shuffle(keys)
-    for key in keys:
-        names_list.append(key)
-        img_list.append(artist_and_img[key])
-
-    name_len = len(names_list)
-    return render_template(
-        "selection_screen.html",
-        name_list=names_list,
-        img=img_list,
-        name_len=name_len,
-    )
-
-
 def weekly_database_update():
     # print('This job is run every monday at 11pm.')
     names_lists, img_lists = spotify_api()

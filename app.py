@@ -1,8 +1,12 @@
+"""Main file of web app"""
+# pylint: disable=maybe-no-member
+# pylint: disable=consider-using-f-string
+# pylint: disable=invalid-name
+# pylint: disable=no-else-return
+# pylint: disable=too-few-public-methods
 import random
 import os
-import json
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.types import TypeDecorator
 from sqlalchemy.sql import func
 from flask_login import (
     LoginManager,
@@ -28,7 +32,6 @@ from dotenv import find_dotenv, load_dotenv
 from spotify import spotify_api
 
 app = Flask(__name__)
-
 
 bp = Blueprint(
     "bp",
@@ -216,7 +219,7 @@ def login_post():
 
     email = request.form.get("email")
     password = request.form.get("password")
-    remember = True if request.form.get("remember") else False
+    remember = bool(request.form.get("remember"))
     if email == "":
         flash("Please check your login details and try again.")
         return redirect(url_for("login"))
@@ -237,6 +240,7 @@ def login_post():
 @app.route("/profile")
 @login_required
 def profile():
+    """Function to render user profile"""
     user = User.query.filter_by(user_name=current_user.user_name).first()
 
     return render_template(
@@ -252,13 +256,14 @@ def profile():
 @bp.route("/selection", methods=["POST", "GET"])
 @login_required
 def index():
-
+    """Renders selection react page"""
     return render_template("index.html")
 
 
 @app.route("/leader_board")
 @login_required
 def leader_board():
+    """Renders the leaderboard screen"""
     users = User.query.filter().order_by(User.weekly_score.desc())
     users_len = len(User.query.all())
 
@@ -276,6 +281,7 @@ def logout():
 @app.route("/paypal")
 @login_required
 def paypal():
+    """Path to paypal portal that may be used"""
     return render_template("paypal.html")
 
 
@@ -308,12 +314,13 @@ def deleted_comments():
 
         # creates list of ints out of string of IDs seperated by commas passed back from react page
         a_list = [int(s) for s in artists_list.split(",")]
+        a_list_len = len(a_list)
         user = User.query.filter_by(user_name=current_user.user_name).first()
         list_of_imgs = []
         list_of_names = []
         weekly_score = 0
 
-        for i in range(len(a_list)):
+        for i in range(a_list_len):
             artist_info = TopArtists.query.filter_by(id=a_list[i]).first()
             list_of_names.append(artist_info.artist_name)
             list_of_imgs.append(artist_info.artist_image)
@@ -336,35 +343,14 @@ def deleted_comments():
     )
 
 
-@app.route("/selections")
-def selections():
-    names_lists, img_lists = spotify_api()
-    artist_and_img = {}
-    names_list = []
-    img_list = []
-    for i in range(50):
-        artist_and_img[names_lists[i]] = img_lists[i]
-    keys = list(artist_and_img.keys())
-    random.shuffle(keys)
-    for key in keys:
-        names_list.append(key)
-        img_list.append(artist_and_img[key])
-
-    name_len = len(names_list)
-    return render_template(
-        "selection_screen.html",
-        name_list=names_list,
-        img=img_list,
-        name_len=name_len,
-    )
-
-
 def weekly_database_update():
+    """This is the weekly database update"""
     # print('This job is run every monday at 11pm.')
     names_lists, img_lists = spotify_api()
+    names_lists_len = len(names_lists)
     TopArtists.query.delete()
     db.session.commit()
-    for i in range(len(names_lists)):
+    for i in range(names_lists_len):
         artist_entry = TopArtists(
             ranking=len(names_lists) - i,
             artist_name=names_lists[i],
@@ -373,11 +359,13 @@ def weekly_database_update():
         db.session.add(artist_entry)
         db.session.commit()
     user = User.query.all()
-    for x in range(len(user)):
+    user_len = len(user)
+    for x in range(user_len):
         new_weekly_score = 0
         if user[x].artist_names is not None:
             user_art_names = user[x].artist_names
-            for y in range(len(user_art_names)):
+            user_art_names_len = len(user_art_names)
+            for y in range(user_art_names_len):
                 if (
                     TopArtists.query.filter_by(artist_name=user_art_names[y]).first()
                     is not None

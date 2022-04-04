@@ -65,3 +65,4 @@ describe("fetchUsers", () => {
     expect(result).toEqual([]);
   });
 });
+

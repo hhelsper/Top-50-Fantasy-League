@@ -1,12 +1,17 @@
-import requests
-import base64
-from dotenv import load_dotenv, find_dotenv
+"""Spotify API python file"""
+# pylint: disable=invalid-name
+# pylint: disable=too-many-locals
 import os
+import base64
+import requests
+from dotenv import load_dotenv, find_dotenv
+
 
 load_dotenv(find_dotenv())  # This is to load your client id and client secret from .env
 
 
 def spotify_api():
+    """Spotify API call function"""
     client_id = os.getenv("client_id")
     client_secret = os.getenv("client_secret")
 
@@ -37,8 +42,8 @@ def spotify_api():
     img_list = []
     for i in range(50):
         artist = a["tracks"]["items"][i]["track"]["artists"][0]["name"]
-        id = a["tracks"]["items"][i]["track"]["artists"][0]["id"]
-        res = requests.get(artist_img_endpoint + id, headers=headers)
+        artist_id = a["tracks"]["items"][i]["track"]["artists"][0]["id"]
+        res = requests.get(artist_img_endpoint + artist_id, headers=headers)
         res_json = res.json()
 
         img_url = res_json["images"][1]["url"]

@@ -256,6 +256,15 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/leader_board")
+@login_required
+def leader_board():
+    users = User.query.filter().order_by(User.weekly_score.desc())
+    users_len = len(User.query.all())
+
+    return render_template("leader_board.html", users=users, users_len=users_len)
+
+
 @app.route("/logout")
 @login_required
 def logout():

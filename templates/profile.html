@@ -9,6 +9,9 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
     </style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
+    </style>
 
     <style>
 
@@ -62,7 +65,9 @@
             style="width: 15rem; border-radius: 8%; box-shadow: 10 10px 15px 8px rgba(0,0,0,0.06);">
             <img src="{{artist_images[i]}}" class="card-img-top" style="border-radius: 8%; height: 16rem;" alt="...">
             <div class="card-body">
-                <h5 class="card-title">{{artist_names[i]}}</h5>
+                <h5 class="card-title"
+                    style="font-size: 18pt; font-family: 'Staatliches', cursive; color: rgb(63, 63, 63);">
+                    {{artist_names[i]}}</h5>
             </div>
         </div>
         {% endfor %}

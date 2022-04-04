@@ -103,7 +103,7 @@ function Artist({ artist, onSelect, onRemove, selectedListLength }) {
     <>{!show &&
 
       <Card style={{ borderRadius: '8%', boxShadow: '10 10px 15px 8px rgba(0,0,0,0.06)', backgroundColor: "rgb(238, 217, 26)" }}>
-        <Card.Img variant="top" src={artist.artist_img} style={{ borderRadius: '8%' }} />
+        <Card.Img variant="top" src={artist.artist_img} style={{ borderRadius: '8%', height: '16rem' }} />
         <Card.Body>
           <Card.Text> {artist.artist_name}</Card.Text>
           <Button variant="primary"
@@ -114,7 +114,7 @@ function Artist({ artist, onSelect, onRemove, selectedListLength }) {
 
     }
       {show && <Card style={{ borderRadius: '8%', boxShadow: '10 10px 15px 8px rgba(0,0,0,0.06)' }}>
-        <Card.Img variant="top" src={artist.artist_img} style={{ borderRadius: '8%' }} />
+        <Card.Img variant="top" src={artist.artist_img} style={{ borderRadius: '8%', height: '16rem' }} />
         <Card.Body>
           <Card.Text> {artist.artist_name}</Card.Text>
           <Button variant="primary" onClick={() => {

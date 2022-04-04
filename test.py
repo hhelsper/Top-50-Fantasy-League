@@ -1,13 +1,14 @@
+"""Python file of unit tests"""
+# pylint: disable=unused-variable
 import unittest
-from unittest.mock import MagicMock, patch
 from spotify import spotify_api
-from app import get_artists
-import app
-import json
 
 
-class codeTests(unittest.TestCase):
+class CodeTests(unittest.TestCase):
+    """python testing class"""
+
     def test_spotify_api_call(self):
+        """First python test"""
         bad_api_return_len = 30
         names_list, img_list = spotify_api()
         real_api_return_len = len(names_list)

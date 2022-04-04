@@ -11,8 +11,8 @@ describe("render elements", () => {
   it('Elements inner text to be in App function', () => {
 
     render(<App />);
-    expect(screen.getByText("Select 5 Artists for your Bracket"));
-    expect(screen.getByText("Save Bracket"));
+    expect(screen.getByText("Select 5 Artists for your Bracket")).toBeInTheDocument();
+    expect(screen.getByText("Save Bracket")).toBeInTheDocument();
 
   });
 });

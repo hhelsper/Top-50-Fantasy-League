@@ -44,9 +44,6 @@ describe("fetchUsers", () => {
     ];
 
     axios.get.mockResolvedValueOnce(artists)
-    axios.get = jest.fn(() => artists);
-
-
     const result = await fetchArtists();
 
 

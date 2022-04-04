@@ -1,4 +1,4 @@
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, screen } from '@testing-library/react';
 import axios from 'axios';
 import React from 'react';
 import App from './App.js'
@@ -8,13 +8,12 @@ import { fetchArtists } from "./utils.js"
 afterEach(cleanup);
 
 describe("render elements", () => {
-  it('Elements inner text to be in document', () => {
+  it('Elements inner text to be in App function', () => {
 
-    const { getByText } = render(<App />);
+    render(<App />);
+    expect(screen.getByText("Select 5 Artists for your Bracket")).toBeInTheDocument();
+    expect(screen.getByText("Save Bracket")).toBeInTheDocument();
 
-    expect(getByText(/Select 5 Artists for your Bracket/i)).toBeInTheDocument();
-    expect(getByText(/Save Bracket/i)).toBeInTheDocument();
-    expect(getByText(/Select/i)).toBeInTheDocument();
   });
 });
 
@@ -45,7 +44,6 @@ describe("fetchUsers", () => {
     ];
 
     axios.get.mockResolvedValueOnce(artists)
-
     const result = await fetchArtists();
 
 

@@ -19,9 +19,8 @@ function App() {
     const artistsList = await axios(
       '/get_artists',
     );
-
-
-    setList(artistsList.data);
+    if (process.env.NODE_ENV !== 'test')
+      setList(artistsList.data);
   }, []);
 
   function selectArtist(id) {

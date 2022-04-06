@@ -348,16 +348,22 @@ def weekly_database_update():
     # print('This job is run every monday at 11pm.')
     names_lists, img_lists = spotify_api()
     names_lists_len = len(names_lists)
+    print(names_lists_len)
     TopArtists.query.delete()
     db.session.commit()
+    artist_len = len(TopArtists.query.all())
+    print(artist_len)
     for i in range(names_lists_len):
-        artist_entry = TopArtists(
-            ranking=len(names_lists) - i,
-            artist_name=names_lists[i],
-            artist_image=img_lists[i],
-        )
-        db.session.add(artist_entry)
-        db.session.commit()
+        if TopArtists.query.filter_by(artist_name=names_lists[i]).first() is None:
+            artist_entry = TopArtists(
+                ranking=len(names_lists) - i,
+                artist_name=names_lists[i],
+                artist_image=img_lists[i],
+            )
+            db.session.add(artist_entry)
+            db.session.commit()
+    artist_len2 = len(TopArtists.query.all())
+    print(artist_len2)
     user = User.query.all()
     user_len = len(user)
     for x in range(user_len):
@@ -376,10 +382,12 @@ def weekly_database_update():
                     new_weekly_score = new_weekly_score + artist.ranking
 
         user[x].weekly_score = new_weekly_score
+        db.session.commit()
 
 
 sched = BackgroundScheduler()
 sched.add_job(weekly_database_update, "cron", day_of_week="mon", hour=23, minute="59")
+# sched.add_job(weekly_database_update, "interval", minutes=1)
 sched.start()
 
 

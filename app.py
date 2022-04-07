@@ -220,6 +220,11 @@ def login():
     return render_template("login.html")
 
 
+def login_helper(email):
+    """Login Helper Email Checker Method"""
+    return bool(email == "")
+
+
 @app.route("/login", methods=["POST"])
 def login_post():
     """Method with logic for logging user in"""
@@ -230,7 +235,7 @@ def login_post():
     email = request.form.get("email")
     password = request.form.get("password")
     remember = bool(request.form.get("remember"))
-    if email == "":
+    if login_helper(email):
         flash("Please check your login details and try again.")
         return redirect(url_for("login"))
 
@@ -363,11 +368,9 @@ def weekly_database_update():
     # print('This job is run every monday at 11pm.')
     names_lists, img_lists = spotify_api()
     names_lists_len = len(names_lists)
-    print(names_lists_len)
+
     TopArtists.query.delete()
     db.session.commit()
-    artist_len = len(TopArtists.query.all())
-    print(artist_len)
     for i in range(names_lists_len):
         if TopArtists.query.filter_by(artist_name=names_lists[i]).first() is None:
             artist_entry = TopArtists(
@@ -377,8 +380,7 @@ def weekly_database_update():
             )
             db.session.add(artist_entry)
             db.session.commit()
-    artist_len2 = len(TopArtists.query.all())
-    print(artist_len2)
+
     user = User.query.all()
     user_len = len(user)
     for x in range(user_len):

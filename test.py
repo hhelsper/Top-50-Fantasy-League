@@ -2,7 +2,7 @@
 import unittest
 
 # from spotify import spotify_api, spotify_access_token_call
-from app import len_bool_helper, get_artists_helper, TopArtists
+from app import len_bool_helper, login_helper
 
 
 class CodeTests(unittest.TestCase):
@@ -30,21 +30,28 @@ class CodeTests(unittest.TestCase):
         actual_output = len_bool_helper(user_name_len, email_len, password_len)
         self.assertEqual(expected_output, actual_output)
 
-    def test_get_artists_helper(self):
-        """Test get artists helper function"""
-        artist_entry = [
-            TopArtists(
-                id=1,
-                ranking=1,
-                artist_name="hayes",
-                artist_image="png",
-            )
-        ]
-        expected_output = [
-            {"id": 1, "artist_name": "hayes", "artist_img": "png", "artist_rank": 1}
-        ]
-        actual_output = get_artists_helper(artist_entry)
+    def test_login_helper(self):
+        """Test email is not equal to empty string"""
+        email = ""
+        expected_output = True
+        actual_output = login_helper(email)
         self.assertEqual(expected_output, actual_output)
+
+    # def test_get_artists_helper(self):
+    #     """Test get artists helper function"""
+    #     artist_entry = [
+    #         TopArtists(
+    #             id=1,
+    #             ranking=1,
+    #             artist_name="hayes",
+    #             artist_image="png",
+    #         )
+    #     ]
+    #     expected_output = [
+    #         {"id": 1, "artist_name": "hayes", "artist_img": "png", "artist_rank": 1}
+    #     ]
+    #     actual_output = get_artists_helper(artist_entry)
+    #     self.assertEqual(expected_output, actual_output)
 
     # @mock.patch("spotify.requests", return_value=([]))
     # def mock_test_api(self):

@@ -32,6 +32,18 @@ def spotify_access_token_call():
     return access_token
 
 
+def spotify_api_image(artist_id, access_token):
+    """This function retrieves image url from spotify"""
+
+    headers = {"Authorization": f"Bearer {access_token}"}
+    artist_img_endpoint = "https://api.spotify.com/v1/artists/"
+
+    res = requests.get(artist_img_endpoint + artist_id, headers=headers)
+    res_json = res.json()
+    img_url = res_json["images"][1]["url"]
+    return img_url
+
+
 def spotify_api():
     """Spotify API call function"""
 
@@ -40,7 +52,6 @@ def spotify_api():
     headers = {"Authorization": f"Bearer {access_token}"}
 
     endpoint = "https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M"
-    artist_img_endpoint = "https://api.spotify.com/v1/artists/"
 
     resp = requests.get(endpoint, headers=headers)
 
@@ -50,10 +61,9 @@ def spotify_api():
     for i in range(50):
         artist = a["tracks"]["items"][i]["track"]["artists"][0]["name"]
         artist_id = a["tracks"]["items"][i]["track"]["artists"][0]["id"]
-        res = requests.get(artist_img_endpoint + artist_id, headers=headers)
-        res_json = res.json()
 
-        img_url = res_json["images"][1]["url"]
+        img_url = spotify_api_image(artist_id, access_token)
+
         if img_url not in img_list and artist not in names_list:
             img_list.append(img_url)
             names_list.append(artist)

@@ -14,14 +14,14 @@
     <style>
         html,
         body {
-            background-color: rgb(245, 245, 245);
+            background-color: black;
 
         }
     </style>
-    <img src="static/white.png" alt="..." style="width: 450px; height: 200px;">
+    <img src="static/b&wBill.jpeg" alt="..." style="width: 370px; height: 200px;">
     <div class="column is-4 is-offset-4">
         <center>
-            <h3 class="title" style="color: black; font-family: 'Staatliches', cursive; font-size: 40pt;">Sign Up</h3>
+            <h3 class="title" style="color: white; font-family: 'Staatliches', cursive; font-size: 40pt;">Sign Up</h3>
         </center>
         <div class="box">
             {% with messages = get_flashed_messages() %}
@@ -54,9 +54,15 @@
                         <input class="input is-large" type="password" name="password" placeholder="Password">
                     </div>
                 </div>
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="password" name="confirm_password"
+                            placeholder="Confirm Password">
+                    </div>
+                </div>
 
                 <button class="button is-block is-info is-large is-fullwidth"
-                    style="background-color: rgb(129, 129, 129);">Sign Up</button>
+                    style="background-color: rgb(71, 71, 71);">Sign Up</button>
             </form>
         </div>
     </div>

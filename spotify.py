@@ -10,8 +10,8 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())  # This is to load your client id and client secret from .env
 
 
-def spotify_api():
-    """Spotify API call function"""
+def spotify_access_token_call():
+    """Spotify access token call"""
     client_id = os.getenv("client_id")
     client_secret = os.getenv("client_secret")
 
@@ -29,6 +29,13 @@ def spotify_api():
     token_response_data = req.json()
 
     access_token = token_response_data["access_token"]
+    return access_token
+
+
+def spotify_api():
+    """Spotify API call function"""
+
+    access_token = spotify_access_token_call()
 
     headers = {"Authorization": f"Bearer {access_token}"}
 

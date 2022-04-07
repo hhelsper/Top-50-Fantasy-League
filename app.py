@@ -169,16 +169,26 @@ def hello_world():
     )
 
 
+def len_bool_helper(user_name_len, email_len, password_len):
+    """Tests if any field of signup left empty"""
+    return bool(user_name_len == 0 or email_len == 0 or password_len == 0)
+
+
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
     """Adds user to database if not already in it and returns main page"""
     if request.method == "POST":
         user_name = request.form.get("user_name")
         password = request.form.get("password")
+        confirm_password = request.form.get("confirm_password")
         email = request.form.get("email")
 
-    if len(user_name) == 0 or len(email) == 0 or len(password) == 0:
+    if len_bool_helper(len(user_name), len(email), len(password)):
         flash("Please enter a username, email, and password")
+        return render_template("signup.html")
+
+    if password != confirm_password:
+        flash("Please make sure passwords match")
         return render_template("signup.html")
 
     user = User.query.filter_by(email=email).first()
@@ -210,6 +220,11 @@ def login():
     return render_template("login.html")
 
 
+def login_helper(email):
+    """Login Helper Email Checker Method"""
+    return bool(email == "")
+
+
 @app.route("/login", methods=["POST"])
 def login_post():
     """Method with logic for logging user in"""
@@ -220,7 +235,7 @@ def login_post():
     email = request.form.get("email")
     password = request.form.get("password")
     remember = bool(request.form.get("remember"))
-    if email == "":
+    if login_helper(email):
         flash("Please check your login details and try again.")
         return redirect(url_for("login"))
 
@@ -285,23 +300,28 @@ def paypal():
     return render_template("paypal.html")
 
 
+def get_artists_helper(artist_info):
+    """Helper function to create and return list of artist info"""
+    info_len = len(artist_info)
+    artist_list = []
+    for i in range(info_len):
+        artist_list.append(
+            {
+                "id": artist_info[i].id,
+                "artist_name": artist_info[i].artist_name,
+                "artist_img": artist_info[i].artist_image,
+                "artist_rank": artist_info[i].ranking,
+            }
+        )
+    return artist_list
+
+
 @bp.route("/get_artists", methods=["GET"])
 def get_artists():
     """Function to pass all artists to react page in a json"""
     artists_info = TopArtists.query.all()
-    info_len = len(artists_info)
-    artist_list = []
-    print(info_len)
+    artist_list = get_artists_helper(artists_info)
 
-    for i in range(info_len):
-        artist_list.append(
-            {
-                "id": artists_info[i].id,
-                "artist_name": artists_info[i].artist_name,
-                "artist_img": artists_info[i].artist_image,
-                "artist_rank": artists_info[i].ranking,
-            }
-        )
     random.shuffle(artist_list)
     return jsonify(artist_list)
 
@@ -348,11 +368,9 @@ def weekly_database_update():
     # print('This job is run every monday at 11pm.')
     names_lists, img_lists = spotify_api()
     names_lists_len = len(names_lists)
-    print(names_lists_len)
+
     TopArtists.query.delete()
     db.session.commit()
-    artist_len = len(TopArtists.query.all())
-    print(artist_len)
     for i in range(names_lists_len):
         if TopArtists.query.filter_by(artist_name=names_lists[i]).first() is None:
             artist_entry = TopArtists(
@@ -362,8 +380,7 @@ def weekly_database_update():
             )
             db.session.add(artist_entry)
             db.session.commit()
-    artist_len2 = len(TopArtists.query.all())
-    print(artist_len2)
+
     user = User.query.all()
     user_len = len(user)
     for x in range(user_len):

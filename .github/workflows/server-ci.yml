@@ -43,6 +43,12 @@ jobs:
       - name: Lint files
         run: find . -name '*.py' -exec pylint {} \;
         
+      - name: Setup .env
+        with: # Set Azure credentials secret as an input
+          DB_URL: ${{ secrets.DB_URL }}
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          
       - name: Run tests
         env:
           DB_URL: ${{ secrets.DB_URL }}

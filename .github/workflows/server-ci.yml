@@ -46,4 +46,4 @@ jobs:
       - name: Run tests
         env:
           DB_URL: ${{ secrets.DB_URL }}
-        run: python test.py
+        run: echo "$DB_URL"; python test.py

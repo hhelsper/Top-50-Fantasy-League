@@ -39,3 +39,26 @@ If you are interested [CLICK HERE](https://powerful-dusk-53061.herokuapp.com/) t
 Here's a walk through of my website:
 
 <img src='Top50.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+## Linting
+
+We have made the choice to disable some linting errors and warnings, and with these disabled our pylint rating is a 10/10. 
+
+### Disabled Warnings and Errors
+
+1. `pylint: disable=maybe-no-member`
+    This disable was an easy one to rationalize. This warning comes due to our use of sqlalchemy and all of the `db.session` lines. These lines are neccessary to interact with our database, but for some reason, pylint takes issue with them. That is why it only makes sense to disable this pylint error. 
+2. `pylint: disable=consider-using-f-string`
+    This pylint warning came in one of the boiler plate functions needed in our User model to successfully implement Flask login. So we disabled this warning because, as mentioned, this is just neccessary code needed and it came straight from the source of the flask login documentation. 
+3. `pylint: disable=no-else-return`
+    This was a strange pylint warning. It came about when we used an if else statement to check whether a user had a bracket of artists saved in the database. Upon logging in, if a user had not yet set their bracket of 5 artists, the are redirected to the selection screen to choose there artists, but if they already have a bracket of artists saved in the database, they are redirected to the profile page. We disabled this because this was a necessary if/else statement, even if pylint doesn't like it.
+4. `pylint: disable=too-few-public-methods`
+    This pylint warning comes up on our classes that we created for our database. I think that python wants these classes to have methods instead of just being the creation of a table in our database. This, however, is the nature of how we must create tables in our database which is why we disabled this pylint warning. 
+5. `pylint: disable=pointless-string-statement`
+    We disabled pointless-string-statement in our README.md because we needed to write comments as to why we commented out two of our unmocked tests. The reason we commented them out is because although they pass locally, these two tests fail on github due to our `.env` file not being accessible on github. I tried using Github secret variables and loading a env into our testing but this did not work so we decided to comment out these two tests. However, if you clone our code, and make your own `.env` file with the necessary variables you can uncomment out these two tests and see that they both pass.
+6. `pylint: disable=invalid-name`
+    We disabled this warning becuase we use nested for loops in our app.py file, where we loop through all users and then loop through each users selected artists. In the for loop we used `for x in range(user_len)` for example, and pylint complained that x was an invalid name. However, we chose to not changed our variables for the two for loop from `x` and `y` to something different because we already have variables with names that would make sense to use in place of x and y so we stuck with x and y and disabled this warning
+
+## Issues with Pull Requests
+
+I first styled the login and signup page early on, and then Ege went back and styled it in a different way but when he pushed his new styling to github the merge conflicts were too complex to be resolved on github. This is why the pull request for his code is currently pending and has not been merged yet. Jack also pushed refactored code to github, but at this point we were unsuccessful in getting the refactored code to work instead of just putting everything in app.py, so at this time we will not be doing a pull request on his new refactored branch. We will circle back during sprint 2 and try to get a refactored code base to work but for now we are holding off on merging it. 

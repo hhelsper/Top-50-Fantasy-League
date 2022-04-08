@@ -8,7 +8,7 @@ from spotify import spotify_access_token_call, spotify_api_image
 """
 below imports are for helper functions that fail on github
 but pass locally. If you test these unit tests locally
-please uncomment out the two helper unit tests to see 
+please uncomment out the two helper unit tests to see
 that they in fact do pass
 """
 # from app import len_bool_helper, login_helper

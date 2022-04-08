@@ -30,8 +30,8 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="/profile">Profile<span class="sr-only"></span></a>
-                <a class="nav-item nav-link" href="/artists">Artists</a>
-                <a class="nav-item nav-link active" href="/leader_board">Leader Board</a>
+                <a class="nav-item nav-link active" href="/artists">Artists</a>
+                <a class="nav-item nav-link" href="/leader_board">Leader Board</a>
                 <a class="nav-item nav-link" href="/my_leagues">My Leagues</a>
                 <a class="nav-item nav-link" href="/create_a_league">Create A League</a>
                 <ul class="nav navbar-nav navbar-right">
@@ -44,41 +44,14 @@
     <br>
     <br>
     <center>
-        <h1 style="font-size: 60pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);">Leader Board</h1>
+        <h1 style="font-size: 60pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);">Top Artists</h1>
     </center>
     <br>
-    {% for i in range(10) %}
-    <div class="card">
-        <h5 class="card-header"
-            style="font-size: 30pt; font-family: 'Staatliches', cursive; color: white; background-color: black;">
-            #{{i + 1}}&ensp; {{users[i].user_name}}</h5>
-        <div class="card-body" style="background-color: rgb(204, 204, 204);">
-            <h5 class="card-title" style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;">Score:
-                {{users[i].weekly_score}}</h5>
+    <center>
+        <h1 style="font-size: 40pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);">To come in sprint 2
+        </h1>
+    </center>
 
-            <div class="card-text">
-
-                <h1 style="font-size: 20pt; font-family: 'Staatliches', cursive; color: white;">Picks:
-                </h1>
-
-                <center>
-                    <div class="row">
-
-                        {% for x in range(5)%}
-                        <div class="col-md">
-                            <img src="{{users[i].artist_images[x]}}"
-                                style="border-radius: 8%; height: 10rem; width: 10rem; border: 5px solid white;"
-                                alt="...">
-                        </div>
-                        {% endfor %}
-
-                    </div>
-                </center>
-            </div>
-
-        </div>
-    </div>
-    {% endfor %}
 
 
 </body>

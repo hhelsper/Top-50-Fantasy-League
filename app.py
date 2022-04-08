@@ -4,10 +4,12 @@
 # pylint: disable=invalid-name
 # pylint: disable=no-else-return
 # pylint: disable=too-few-public-methods
+
 import random
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+
 from flask_login import (
     LoginManager,
     UserMixin,
@@ -283,6 +285,27 @@ def leader_board():
     users_len = len(User.query.all())
 
     return render_template("leader_board.html", users=users, users_len=users_len)
+
+
+@app.route("/artists")
+@login_required
+def artists():
+    """Renders the top artists page"""
+    return render_template("artists.html")
+
+
+@app.route("/my_leagues")
+@login_required
+def my_leagues():
+    """Renders the my leagues page"""
+    return render_template("my_leagues.html")
+
+
+@app.route("/create_a_league")
+@login_required
+def create_a_league():
+    """Renders the create a league page"""
+    return render_template("create_a_league.html")
 
 
 @app.route("/logout")

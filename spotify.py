@@ -1,6 +1,4 @@
 """Spotify API python file"""
-# pylint: disable=invalid-name
-# pylint: disable=too-many-locals
 import os
 import base64
 import requests
@@ -54,12 +52,12 @@ def spotify_api():
 
     resp = requests.get(endpoint, headers=headers)
 
-    a = resp.json()
+    art = resp.json()
     names_list = []
     img_list = []
     for i in range(50):
-        artist = a["tracks"]["items"][i]["track"]["artists"][0]["name"]
-        artist_id = a["tracks"]["items"][i]["track"]["artists"][0]["id"]
+        artist = art["tracks"]["items"][i]["track"]["artists"][0]["name"]
+        artist_id = art["tracks"]["items"][i]["track"]["artists"][0]["id"]
 
         img_url = spotify_api_image(artist_id, access_token)
 

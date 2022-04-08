@@ -28,8 +28,7 @@ def spotify_access_token_call():
     req = requests.post(token_url, data=token_data, headers=token_headers)
     token_response_data = req.json()
 
-    access_token = token_response_data["access_token"]
-    return access_token
+    return token_response_data["access_token"]
 
 
 def spotify_api_image(artist_id, access_token):
@@ -40,8 +39,8 @@ def spotify_api_image(artist_id, access_token):
 
     res = requests.get(artist_img_endpoint + artist_id, headers=headers)
     res_json = res.json()
-    img_url = res_json["images"][1]["url"]
-    return img_url
+
+    return res_json["images"][1]["url"]
 
 
 def spotify_api():

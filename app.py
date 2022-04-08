@@ -4,10 +4,12 @@
 # pylint: disable=invalid-name
 # pylint: disable=no-else-return
 # pylint: disable=too-few-public-methods
+
 import random
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+
 from flask_login import (
     LoginManager,
     UserMixin,

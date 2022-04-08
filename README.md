@@ -30,4 +30,12 @@ The next thing you'll need to do is get a spotify developer account. After getti
 After you run the command `heroku addons:create heroku-postgres:hobby-dev` after creating a heroku app for your clone of this repository, you will need to grab the datbase url for this heroku postgres database. Once you get the url an important thing to note is that you will need to change `postgres://` in the url to `postgresql://`. Once you have done that and changed your url, you will need to add it to your `.env` file by typing this: `export DB_URL='postgresql://<your url here>'`. You're all set! You should now be able to type in `python3 app.py` in your terminal and follow the local link displayed to load our web app. 
 
 
-## More later
+## Link to our Webpage 
+
+If you are interested [CLICK HERE](https://powerful-dusk-53061.herokuapp.com/) to view our site!
+
+## Video Walkthrough
+
+Here's a walk through of my website:
+
+<img src='Top50.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />

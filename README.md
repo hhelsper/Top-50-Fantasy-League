@@ -59,3 +59,6 @@ We have made the choice to disable some linting errors and warnings, and with th
 6. `pylint: disable=invalid-name`
     We disabled this warning becuase we use nested for loops in our app.py file, where we loop through all users and then loop through each users selected artists. In the for loop we used `for x in range(user_len)` for example, and pylint complained that x was an invalid name. However, we chose to not changed our variables for the two for loop from `x` and `y` to something different because we already have variables with names that would make sense to use in place of x and y so we stuck with x and y and disabled this warning
 
+## Issues with Pull Requests
+
+I first styled the login and signup page early on, and then Ege went back and styled it in a different way but when he pushed his new styling to github the merge conflicts were too complex to be resolved on github. This is why the pull request for his code is currently pending and has not been merged yet. Jack also pushed refactored code to github, but at this point we were unsuccessful in getting the refactored code to work instead of just putting everything in app.py, so at this time we will not be doing a pull request on his new refactored branch. We will circle back during sprint 2 and try to get a refactored code base to work but for now we are holding off on merging it. 

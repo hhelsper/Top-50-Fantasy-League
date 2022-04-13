@@ -283,8 +283,22 @@ def leader_board():
     """Renders the leaderboard screen"""
     users = User.query.filter().order_by(User.weekly_score.desc())
     users_len = len(User.query.all())
+    cur_user = User.query.filter_by(user_name=current_user.user_name).first()
+    cur_user_rank = 0
+    for i in range(users_len):
+        if users[i].user_name == cur_user.user_name:
+            cur_user_rank = i
+            break
 
-    return render_template("leader_board.html", users=users, users_len=users_len)
+    print(cur_user.user_name)
+
+    return render_template(
+        "leader_board.html",
+        users=users,
+        users_len=users_len,
+        cur_user=cur_user,
+        rank=cur_user_rank,
+    )
 
 
 @app.route("/artists")

@@ -24,21 +24,22 @@ class CodeTests(unittest.TestCase):
     below tests commented out for the sake of showing that all tests
     passed on github
     """
-    # def test_len_bool_helper(self):
-    #     """Length of fields in signup helper test"""
-    #     user_name_len = 0
-    #     email_len = 0
-    #     password_len = 0
-    #     expected_output = True
-    #     actual_output = len_bool_helper(user_name_len, email_len, password_len)
-    #     self.assertEqual(expected_output, actual_output)
 
-    # def test_login_helper(self):
-    #     """Test email is not equal to empty string"""
-    #     email = ""
-    #     expected_output = True
-    #     actual_output = login_helper(email)
-    #     self.assertEqual(expected_output, actual_output)
+    def test_len_bool_helper(self):
+        """Length of fields in signup helper test"""
+        user_name_len = 0
+        email_len = 0
+        password_len = 0
+        expected_output = True
+        actual_output = len_bool_helper(user_name_len, email_len, password_len)
+        self.assertEqual(expected_output, actual_output)
+
+    def test_login_helper(self):
+        """Test email is not equal to empty string"""
+        email = ""
+        expected_output = True
+        actual_output = login_helper(email)
+        self.assertEqual(expected_output, actual_output)
 
     def test_get_spotify_img(self):
         """Mock spotify img call"""

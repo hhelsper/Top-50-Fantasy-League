@@ -79,6 +79,50 @@
         </div>
     </div>
     {% endfor %}
+    {% if rank > 10%}
+    <center>
+        <div style="font-size: 30pt; font-family: 'Staatliches', cursive; color: black;"> ◉ </div>
+    </center>
+    <br>
+    <center>
+        <div style="font-size: 30pt; font-family: 'Staatliches', cursive; color: black;"> ◉ </div>
+    </center>
+    <br>
+    <center>
+        <div style="font-size: 30pt; font-family: 'Staatliches', cursive; color: black;"> ◉ </div>
+    </center>
+    <div class="card">
+        <h5 class="card-header"
+            style="font-size: 30pt; font-family: 'Staatliches', cursive; color: white; background-color: black;">
+            #{{rank}}&ensp; {{cur_user.user_name}}</h5>
+        <div class="card-body" style="background-color: rgb(204, 204, 204);">
+            <h5 class="card-title" style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;">Score:
+                {{cur_user.weekly_score}}</h5>
+
+            <div class="card-text">
+
+                <h1 style="font-size: 20pt; font-family: 'Staatliches', cursive; color: white;">Picks:
+                </h1>
+
+                <center>
+                    <div class="row">
+
+                        {% for x in range(5)%}
+                        <div class="col-md">
+                            <img src="{{cur_user.artist_images[x]}}"
+                                style="border-radius: 8%; height: 10rem; width: 10rem; border: 5px solid white;"
+                                alt="...">
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </center>
+            </div>
+
+        </div>
+    </div>
+
+    {% endif%}
 
 
 </body>

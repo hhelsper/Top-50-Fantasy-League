@@ -11,7 +11,7 @@ but pass locally. If you test these unit tests locally
 please uncomment out the two helper unit tests to see
 that they in fact do pass
 """
-# from app import len_bool_helper, login_helper
+from app import len_bool_helper, login_helper
 
 
 class CodeTests(unittest.TestCase):

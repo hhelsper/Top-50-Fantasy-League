@@ -46,6 +46,5 @@ jobs:
         run: find . -name '*.py' -exec pylint {} \;
           
       - name: Run tests
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
+  
         run: python test.py

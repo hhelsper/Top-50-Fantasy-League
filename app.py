@@ -305,7 +305,10 @@ def leader_board():
 @login_required
 def artists():
     """Renders the top artists page"""
-    return render_template("artists.html")
+    top_artists = TopArtists.query.filter().order_by(TopArtists.ranking.desc())
+    artist_len = len(TopArtists.query.all())
+
+    return render_template("artists.html", artists=top_artists, artist_len=artist_len)
 
 
 @app.route("/my_leagues")

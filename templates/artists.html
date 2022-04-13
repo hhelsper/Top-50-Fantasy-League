@@ -47,10 +47,23 @@
         <h1 style="font-size: 60pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);">Top Artists</h1>
     </center>
     <br>
-    <center>
-        <h1 style="font-size: 40pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);">To come in sprint 2
-        </h1>
-    </center>
+    <br>
+
+    <div class="container">
+
+        {% for i in range(artist_len) %}
+        <div style="font-family: 'Staatliches', cursive; color: black; font-size: 30pt;"> #{{i + 1}}.
+            <div class="card text-black"
+                style="width: 18rem; border-radius: 8%; box-shadow: 10 10px 15px 8px rgba(0,0,0,0.06);">
+                <img src="{{artists[i].artist_image}}" class="card-img-top" style="border-radius: 8%;" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{artists[i].artist_name}}</h5>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
 
 

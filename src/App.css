@@ -2,12 +2,17 @@
   background-color: rgb(245, 245, 245);
 }
 
+body{
+  background-color: rgb(245, 245, 245);
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300&display=swap');
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -63,3 +68,25 @@ img {
   color: rgb(22, 22, 22);
 }
 
+.custom{
+  width: 105px;
+  height: 60px;
+}
+
+#navbar-right{
+  position: fixed;
+  margin-left: 100rem;
+  top: 29px;
+  right: 40px;/*pixels away from the right of the navbar*/
+}
+
+.navbar{
+  padding-left: 25px;
+  padding-right: 25 px;
+  border-radius: 25px;
+  background-color: black;
+  box-shadow: 5px 5px 8px 2px rgba(100, 100, 100, 0.8);
+  font-size: 19pt;
+  font-family: 'Darker Grotesque', sans-serif;
+  
+}

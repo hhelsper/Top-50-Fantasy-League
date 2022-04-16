@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300&display=swap');
+
 body {
     background-color: rgb(245, 245, 245);
     font-family: 'Garamond';
@@ -39,7 +41,8 @@ img {
     border-radius: 25px;
     background-color: black;
     box-shadow: 5px 5px 8px 2px rgba(100, 100, 100, 0.8);
-    font-size: 15pt;
+    font-size: 19pt;
+    font-family: 'Darker Grotesque', sans-serif;
 }
 
 .navigator{
@@ -49,6 +52,6 @@ img {
 
   .navbar-right{
     position: fixed;
-    top: 32px;
+    top: 29px;
     right: 40px;/*pixels away from the right of the navbar*/
   }

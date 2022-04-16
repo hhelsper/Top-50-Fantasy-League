@@ -5,8 +5,10 @@
 # pylint: disable=no-else-return
 # pylint: disable=too-few-public-methods
 
+import datetime
 import random
 import os
+from subprocess import list2cmdline
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 
@@ -277,6 +279,14 @@ def index():
     return render_template("index.html")
 
 
+# route for serving React page
+@bp.route("/create_a_league", methods=["POST", "GET"])
+@login_required
+def create_a_league():
+    """Renders selection react page"""
+    return render_template("index.html")
+
+
 @app.route("/leader_board")
 @login_required
 def leader_board():
@@ -318,11 +328,11 @@ def my_leagues():
     return render_template("my_leagues.html")
 
 
-@app.route("/create_a_league")
-@login_required
-def create_a_league():
-    """Renders the create a league page"""
-    return render_template("create_a_league.html")
+# @app.route("/create_a_league")
+# @login_required
+# def create_a_league():
+#     """Renders the create a league page"""
+#     return render_template("create_a_league.html")
 
 
 @app.route("/logout")
@@ -354,6 +364,78 @@ def get_artists_helper(artist_info):
             }
         )
     return artist_list
+
+    #
+    #
+    #
+    #
+    #
+    #
+
+
+@bp.route("/get_users", methods=["GET"])
+def get_users():
+    """Search users based on search"""
+    search = request.args.get("search")
+    print(search)
+    all_users = User.query.all()
+    len_users = len(all_users)
+    list_of_results = []
+    for i in range(len_users):
+        if (
+            search in all_users[i].user_name
+            and all_users[i].user_name != current_user.user_name
+        ):
+            list_of_results.append(
+                {
+                    "id": all_users[i].user_id,
+                    "user_name": all_users[i].user_name,
+                }
+            )
+    print(list_of_results)
+
+    return jsonify(list_of_results)
+
+
+@app.route("/create_league", methods=["POST", "GET"])
+def create_league():
+    """Function to create a league"""
+    if request.method == "POST":
+        user_ids = request.form.get("users")
+        id_list = [int(s) for s in user_ids.split(",")]
+        id_list_len = len(id_list)
+        duration = request.form.get("end_date")
+        duration_int = int(duration)
+        league_name = request.form.get("name")
+
+        user_names_array = []
+        for i in range(id_list_len):
+            user = User.query.filter_by(user_id=id_list[i]).first()
+            user_names_array.append(user.user_name)
+
+        new_league = League(
+            league_name=league_name,
+            end_date=datetime.datetime.now() + datetime.timedelta(weeks=duration_int),
+            user_names=user_names_array,
+        )
+        db.session.add(new_league)
+        db.session.commit()
+
+        league = League.query.filter_by(league_name=league_name).first()
+
+        for n in range(id_list_len):
+            user_to_add = User.query.filter_by(user_id=id_list[n]).first()
+            new_league_user = LeagueUsers(
+                league_id=league.id,
+                user_name=user_to_add.user_name,
+                artist_names=user_to_add.artist_names,
+                artist_images=user_to_add.artist_images,
+                total_score=user_to_add.weekly_score,
+            )
+            db.session.add(new_league_user)
+            db.session.commit()
+
+        return render_template("my_leagues.html")
 
 
 @bp.route("/get_artists", methods=["GET"])

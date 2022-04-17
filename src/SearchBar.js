@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 import './styles/SearchBar.css'
-import { MDBCol, MDBIcon } from "mdbreact";
+import { MDBIcon } from "mdbreact";
 import { Row, Col, Form, InputGroup } from 'react-bootstrap';
 
 const SearchBar = ({ onSearchSubmit, clearResults }) => {
@@ -29,9 +29,9 @@ const SearchBar = ({ onSearchSubmit, clearResults }) => {
         <div className='searchbar' style={{ backgroundColor: 'rgba(255, 255, 255, .13)' }}>
 
             <center><Row>
-                <InputGroup style={{ marginLeft: '15rem' }}>
+                <InputGroup style={{ marginLeft: '15.3rem' }}>
 
-                    <InputGroup.Text style={{ marginLeft: '1px' }}>
+                    <InputGroup.Text style={{ marginLeft: '0px' }}>
 
                         <MDBIcon icon="search" /></InputGroup.Text>
                     <Col xs={7}>

@@ -276,7 +276,7 @@ def profile():
 @login_required
 def index():
     """Renders selection react page"""
-    return render_template("index.html")
+    return render_template("index.html", flask_token="selection")
 
 
 # route for serving React page
@@ -284,7 +284,7 @@ def index():
 @login_required
 def create_a_league():
     """Renders selection react page"""
-    return render_template("index.html")
+    return render_template("index.html", flask_token="create_a_league")
 
 
 @app.route("/leader_board")

@@ -276,7 +276,7 @@ def profile():
 @login_required
 def index():
     """Renders selection react page"""
-    return render_template("index.html", flask_token="selection")
+    return render_template("index.html")
 
 
 # route for serving React page
@@ -284,7 +284,7 @@ def index():
 @login_required
 def create_a_league():
     """Renders selection react page"""
-    return render_template("index.html", flask_token="create_a_league")
+    return render_template("index.html")
 
 
 @app.route("/leader_board")
@@ -434,6 +434,16 @@ def create_league():
             )
             db.session.add(new_league_user)
             db.session.commit()
+        cur_user = User.query.filter_by(user_name=current_user.user_name).first()
+        cur_user_league_user = LeagueUsers(
+            league_id=league.id,
+            user_name=cur_user.user_name,
+            artist_names=cur_user.artist_names,
+            artist_images=cur_user.artist_images,
+            total_score=cur_user.weekly_score,
+        )
+        db.session.add(cur_user_league_user)
+        db.session.commit()
 
         return render_template("my_leagues.html")
 

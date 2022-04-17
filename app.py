@@ -325,7 +325,52 @@ def artists():
 @login_required
 def my_leagues():
     """Renders the my leagues page"""
-    return render_template("my_leagues.html")
+    user = User.query.filter_by(user_name=current_user.user_name).first()
+    all_leagues = League.query.all()
+    ongoing_leagues = []
+    ended_leagues = []
+    ongoing_leagues_users = []
+    ended_leagues_users = []
+    scores = []
+
+    today = datetime.datetime.now()
+    for league_names in all_leagues:
+        if user.user_name in league_names.user_names:
+            if (
+                datetime.datetime.now(league_names.end_date.tzinfo)
+                < league_names.end_date
+            ):
+                ongoing_leagues.append(league_names.league_name)
+                ongoing_leagues_users.append(league_names.user_names)
+
+            else:
+                ended_leagues.append(league_names.league_name)
+                ended_leagues_users.append(league_names.league_name)
+
+    # Finding the top scorer in the league
+    for league in ongoing_leagues:
+        league_id = League.query.filter_by(league_name=league).first()
+        print(league_id.max_score)
+        total = LeagueUsers.query.filter_by(league_id=league_id.id).order_by(
+            LeagueUsers.total_score.desc()
+        )
+        scores.append(league_id.max_score)
+        max_user = []
+        for i in range(len(total)):
+            max_user.append()
+
+    return render_template(
+        "my_leagues.html",
+        all_league=all_leagues,
+        ongoing_leagues_users=ongoing_leagues_users,
+        ended_leagues_users=ended_leagues_users,
+        ongoing_leagues=ongoing_leagues,
+        ended_leagues=ended_leagues,
+        ongoing_length_league=len(ongoing_leagues),
+        ended_length_league=len(ended_leagues),
+        scores=scores,
+        len_scores=len(scores),
+    )
 
 
 # @app.route("/create_a_league")
@@ -409,14 +454,19 @@ def create_league():
         league_name = request.form.get("name")
 
         user_names_array = []
+        user = User.query.filter_by(user_name=current_user.user_name).first()
+        user_names_array.append(user.user_name)
+        scores = []
         for i in range(id_list_len):
             user = User.query.filter_by(user_id=id_list[i]).first()
             user_names_array.append(user.user_name)
+            scores.append(user.weekly_score)
 
         new_league = League(
             league_name=league_name,
             end_date=datetime.datetime.now() + datetime.timedelta(weeks=duration_int),
             user_names=user_names_array,
+            max_score=max(scores),
         )
         db.session.add(new_league)
         db.session.commit()
@@ -435,7 +485,7 @@ def create_league():
             db.session.add(new_league_user)
             db.session.commit()
 
-        return render_template("my_leagues.html")
+        return redirect("/my_leagues")
 
 
 @bp.route("/get_artists", methods=["GET"])

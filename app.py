@@ -466,14 +466,19 @@ def create_league():
         league_name = request.form.get("name")
 
         user_names_array = []
+        user = User.query.filter_by(user_name=current_user.user_name).first()
+        user_names_array.append(user.user_name)
+        scores = []
         for i in range(id_list_len):
             user = User.query.filter_by(user_id=id_list[i]).first()
             user_names_array.append(user.user_name)
+            scores.append(user.weekly_score)
 
         new_league = League(
             league_name=league_name,
             end_date=datetime.datetime.now() + datetime.timedelta(weeks=duration_int),
             user_names=user_names_array,
+            max_score=max(scores),
         )
         db.session.add(new_league)
         db.session.commit()
@@ -502,7 +507,7 @@ def create_league():
         db.session.add(cur_user_league_user)
         db.session.commit()
 
-        return render_template("my_leagues.html")
+        return redirect("/my_leagues")
 
 
 @bp.route("/get_artists", methods=["GET"])

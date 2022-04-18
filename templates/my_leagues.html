@@ -53,12 +53,13 @@
 
     {% for i in range(ongoing_length_league) %}
 
-    <div class="card" onclick="location.href='/create_a_league';" style="cursor: pointer;">
-
-        <h5 class="card-header"
-            style="font-size: 30pt; font-family: 'Staatliches', cursive; color: white; background-color: black;">
-
-            League Name: {{ongoing_leagues[i].league_name}}</h5>
+    <div class="card">
+        <form method="POST" action="/my_leagues" style="background-color: black;">
+            <button type="submit" name="btn-league-name" , value="{{ongoing_leagues[i].league_name}}"
+                class="card-header"
+                style="border: none; font-size: 30pt; font-family: 'Staatliches', cursive; color: white; background-color: black;">
+                League Name: {{ongoing_leagues[i].league_name}}</button>
+        </form>
 
         <div class="card-body" style="background-color: rgb(204, 204, 204);">
             <h5 class="card-title"

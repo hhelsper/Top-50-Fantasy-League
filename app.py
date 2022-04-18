@@ -282,17 +282,8 @@ def index():
 
 @bp.errorhandler(404)
 def not_found(e):
+    """Probably not needed"""
     return render_template("index.html")
-
-
-# # route for serving React page
-# @bp.route("/create_a_league", methods=["GET"])
-# @login_required
-# def create_a_league():
-#     """Renders selection react page"""
-#     return render_template("index.html")
-
-# @bp.route()
 
 
 @app.route("/leader_board")
@@ -421,13 +412,6 @@ def get_artists_helper(artist_info):
             }
         )
     return artist_list
-
-    #
-    #
-    #
-    #
-    #
-    #
 
 
 @bp.route("/get_users", methods=["GET"])
@@ -593,7 +577,6 @@ def weekly_database_update():
 
 sched = BackgroundScheduler()
 sched.add_job(weekly_database_update, "cron", day_of_week="mon", hour=23, minute="59")
-# sched.add_job(weekly_database_update, "interval", minutes=1)
 sched.start()
 
 

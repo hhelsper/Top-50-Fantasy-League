@@ -1,10 +1,10 @@
 /* eslint-disable react/style-prop-object */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import { Navbar, Nav, Container, Row, Col } from 'react-bootstrap';
+import { Navbar, Nav, Row, Col } from 'react-bootstrap';
 
 import SearchBar from './SearchBar';
 import { requestUsers } from './requestUsers';

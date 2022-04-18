@@ -47,11 +47,51 @@
         <h1 style="font-size: 60pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);">My Leagues</h1>
     </center>
     <br>
-    <center>
-        <h1 style="font-size: 40pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);">To come in sprint 2
-        </h1>
-    </center>
 
+    <h1 style="font-size: 40pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);">Ongoing Leagues
+        ({{ongoing_length_league}})</h1>
+
+    {% for i in range(ongoing_length_league) %}
+
+    <div class="card" onclick="location.href='/create_a_league';" style="cursor: pointer;">
+
+        <h5 class="card-header"
+            style="font-size: 30pt; font-family: 'Staatliches', cursive; color: white; background-color: black;">
+            League Name: {{ongoing_leagues[i]}}</h5>
+        <div class="card-body" style="background-color: rgb(204, 204, 204);">
+            <h5 class="card-title"
+                style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Members:
+            </h5>
+
+            {% for j in ongoing_leagues_users[i] %}
+            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'"> {{j}} </p>
+
+
+            {% endfor %}
+            <br></br>
+            <h6 class="card-title"
+                style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Top Scorer:
+            </h6>
+
+            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'"> {{scores[i]}} </p>
+
+
+
+
+
+        </div>
+    </div>
+
+
+    <br></br>
+    {% endfor %}
+
+    <h2 style="font-size: 40pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);">Ended
+        Leagues ({{ended_length_league}})</h2>
+    {% for i in range(ongoing_length_league) %}
+
+
+    {% endfor %}
 
 </body>
 

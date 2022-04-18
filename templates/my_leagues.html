@@ -57,19 +57,24 @@
 
         <h5 class="card-header"
             style="font-size: 30pt; font-family: 'Staatliches', cursive; color: white; background-color: black;">
+
             League Name: {{ongoing_leagues[i].league_name}}</h5>
+
         <div class="card-body" style="background-color: rgb(204, 204, 204);">
             <h5 class="card-title"
                 style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Members:
             </h5>
 
+
             {% for members in ongoing_leagues[i].members %}
             <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'"> {{members}} </p>
+
             {% endfor %}
             <br></br>
             <h6 class="card-title"
                 style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Top Scorer:
             </h6>
+
 
             <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">
                 {{ongoing_leagues[i].top_scorer}}</p>
@@ -79,6 +84,7 @@
             </h6>
             <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">
                 {{ongoing_leagues[i].top_score}}</p>
+
 
 
 

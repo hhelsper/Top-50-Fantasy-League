@@ -272,19 +272,27 @@ def profile():
 
 
 # route for serving React page
-@bp.route("/selection", methods=["POST", "GET"])
+@bp.route("/selection", methods=["GET"])
+@bp.route("/create_a_league", methods=["GET"])
 @login_required
 def index():
     """Renders selection react page"""
     return render_template("index.html")
 
 
-# route for serving React page
-@bp.route("/create_a_league", methods=["POST", "GET"])
-@login_required
-def create_a_league():
-    """Renders selection react page"""
+@bp.errorhandler(404)
+def not_found(e):
     return render_template("index.html")
+
+
+# # route for serving React page
+# @bp.route("/create_a_league", methods=["GET"])
+# @login_required
+# def create_a_league():
+#     """Renders selection react page"""
+#     return render_template("index.html")
+
+# @bp.route()
 
 
 @app.route("/leader_board")
@@ -382,13 +390,6 @@ def my_leagues():
         ongoing_length_league=len(ongoing_leagues),
         ended_length_league=len(ended_leagues),
     )
-
-
-# @app.route("/create_a_league")
-# @login_required
-# def create_a_league():
-#     """Renders the create a league page"""
-#     return render_template("create_a_league.html")
 
 
 @app.route("/logout")
@@ -495,6 +496,16 @@ def create_league():
             )
             db.session.add(new_league_user)
             db.session.commit()
+        cur_user = User.query.filter_by(user_name=current_user.user_name).first()
+        cur_user_league_user = LeagueUsers(
+            league_id=league.id,
+            user_name=cur_user.user_name,
+            artist_names=cur_user.artist_names,
+            artist_images=cur_user.artist_images,
+            total_score=cur_user.weekly_score,
+        )
+        db.session.add(cur_user_league_user)
+        db.session.commit()
 
         return redirect("/my_leagues")
 

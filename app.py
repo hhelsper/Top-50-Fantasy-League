@@ -272,19 +272,27 @@ def profile():
 
 
 # route for serving React page
-@bp.route("/selection", methods=["POST", "GET"])
+@bp.route("/selection", methods=["GET"])
+@bp.route("/create_a_league", methods=["GET"])
 @login_required
 def index():
     """Renders selection react page"""
     return render_template("index.html")
 
 
-# route for serving React page
-@bp.route("/create_a_league", methods=["POST", "GET"])
-@login_required
-def create_a_league():
-    """Renders selection react page"""
+@bp.errorhandler(404)
+def not_found(e):
     return render_template("index.html")
+
+
+# # route for serving React page
+# @bp.route("/create_a_league", methods=["GET"])
+# @login_required
+# def create_a_league():
+#     """Renders selection react page"""
+#     return render_template("index.html")
+
+# @bp.route()
 
 
 @app.route("/leader_board")
@@ -325,14 +333,63 @@ def artists():
 @login_required
 def my_leagues():
     """Renders the my leagues page"""
-    return render_template("my_leagues.html")
+    user = User.query.filter_by(user_name=current_user.user_name).first()
+    all_leagues = League.query.all()
+    ongoing_leagues = []
+    ended_leagues = []
 
+    for league_names in all_leagues:
+        if user.user_name in league_names.user_names:
+            if (
+                datetime.datetime.now(league_names.end_date.tzinfo)
+                < league_names.end_date
+            ):
+                league_users = LeagueUsers.query.filter_by(
+                    league_id=league_names.id
+                ).all()
+                for user in league_users:
 
-# @app.route("/create_a_league")
-# @login_required
-# def create_a_league():
-#     """Renders the create a league page"""
-#     return render_template("create_a_league.html")
+                    max_score = 0
+                    if user.total_score > max_score:
+                        winner = user
+                        max_score = user.total_score
+
+                ongoing_leagues.append(
+                    {
+                        "league_name": league_names.league_name,
+                        "members": league_names.user_names,
+                        "top_scorer": winner.user_name,
+                        "top_score": winner.total_score,
+                    }
+                )
+
+            else:
+                league_users = LeagueUsers.query.filter_by(
+                    league_id=league_names.id
+                ).all()
+                for user in league_users:
+
+                    max_score = 0
+                    if user.total_score > max_score:
+                        winner = user
+                        max_score = user.total_score
+
+                ended_leagues.append(
+                    {
+                        "league_name": league_names.league_name,
+                        "members": league_names.user_names,
+                        "top_scorer": winner.user_name,
+                        "top_score": winner.total_score,
+                    }
+                )
+
+    return render_template(
+        "my_leagues.html",
+        ongoing_leagues=ongoing_leagues,
+        ended_leagues=ended_leagues,
+        ongoing_length_league=len(ongoing_leagues),
+        ended_length_league=len(ended_leagues),
+    )
 
 
 @app.route("/logout")

@@ -61,12 +61,12 @@ function Create() {
 
 
                 <Nav className="me-auto" defaultActiveKey="#">
-                    <Nav.Link href="/profile" style={{ marginLeft: "16px" }}>Profile</Nav.Link>
-                    <Nav.Link href="/artists">Artists</Nav.Link>
-                    <Nav.Link href="/leader_board">Leader Board</Nav.Link>
-                    <Nav.Link href="/my_leagues">My Leagues</Nav.Link>
-                    <Nav.Link href="#">Create A League</Nav.Link>
-                    <Nav.Link id="navbar-right" href="/logout">Logout</Nav.Link>
+                    <Nav.Link to="/profile" href="/profile" style={{ marginLeft: "16px" }}>Profile</Nav.Link>
+                    <Nav.Link to="/artists" href="/artists">Artists</Nav.Link>
+                    <Nav.Link to="/leader_board" href="/leader_board">Leader Board</Nav.Link>
+                    <Nav.Link to="/my_leagues" href="/my_leagues">My Leagues</Nav.Link>
+                    <Nav.Link to="#" href="#">Create A League</Nav.Link>
+                    <Nav.Link id="navbar-right" to="/logout" href="/logout">Logout</Nav.Link>
                 </Nav>
 
             </Navbar>

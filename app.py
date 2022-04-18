@@ -329,7 +329,7 @@ def artists():
     return render_template("artists.html", artists=top_artists, artist_len=artist_len)
 
 
-@app.route("/my_leagues")
+@app.route("/my_leagues", methods=["POST", "GET"])
 @login_required
 def my_leagues():
     """Renders the my leagues page"""
@@ -382,6 +382,26 @@ def my_leagues():
                         "top_score": winner.total_score,
                     }
                 )
+    if request.method == "POST":
+        users = League.query.filter_by(
+            league_name=request.form.get("btn-league-name")
+        ).all()
+
+        users_list = users[0].user_names
+        users = (
+            User.query.filter(User.user_name.in_(users_list))
+            .order_by(User.weekly_score.desc())
+            .all()
+        )
+        users_len = len(users)
+        curr_league = request.form.get("btn-league-name")
+
+        return render_template(
+            "my_leagues_page.html",
+            users=users,
+            users_len=users_len,
+            curr_league=curr_league,
+        )
 
     return render_template(
         "my_leagues.html",

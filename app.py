@@ -377,7 +377,8 @@ def my_leagues():
         users = League.query.filter_by(
             league_name=request.form.get("btn-league-name")
         ).all()
-
+        end_date = users[0].end_date
+        end_date = end_date.strftime("%m/%d/%Y")
         users_list = users[0].user_names
         users = (
             User.query.filter(User.user_name.in_(users_list))
@@ -392,6 +393,7 @@ def my_leagues():
             users=users,
             users_len=users_len,
             curr_league=curr_league,
+            end_date=end_date,
         )
 
     return render_template(

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='sign_up_style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+    </style>
+</head>
+
+<body>
+
+    <style>
+        html,
+        body {
+            background-color: black;
+
+        }
+    </style>
+    <img src="static/b&wBill.jpeg" alt="..." style="width: 300px; height: 200px;">
+    <div class="column-is-4-is-offset-4">
+        <center>
+
+            <h3 class="title" style="color: white; font-family: 'Staatliches', cursive; font-size: 40pt;">Sign Up</h3>
+        </center>
+
+
+
+        <center>
+            <div class="box">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="notification">
+                    {{ messages[0] }}.
+                    <!-- Go to <a href="/login">login page -->
+
+                    </a>
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="/signup">
+
+                    <div class="field">
+                        <div class="control">
+                            <input class="input-is-large" type="text" name="user_name" placeholder="Username"
+                                autofocus="">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <input class="input-is-large" type="text" name="email" placeholder="Email" autofocus="">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <input class="input-is-large" type="password" name="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input-is-large" type="password" name="confirm_password"
+                                placeholder="Confirm Password">
+                        </div>
+                    </div>
+
+                    <button class="button-is-block-is-info-is-large-is-fullwidth">Signup</button>
+                </form>
+            </div>
+    </div>
+
+    </center>
+
+</body>
+
+</html>

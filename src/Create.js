@@ -130,9 +130,9 @@ function Create() {
             <center><SearchBar onSearchSubmit={onSearchSubmit} clearResults={clearResults} /></center>
 
             {noResults &&
-                <p className='no-results'>
+                <center><p className='no-results'>
                     No results found.
-                </p>
+                </p></center>
             }
             <div className='main-content'>
                 {renderedQuotes}

@@ -8,7 +8,7 @@
 import datetime
 import random
 import os
-from subprocess import list2cmdline
+
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 
@@ -103,25 +103,6 @@ class League(db.Model):
     time_created = db.Column(db.DateTime(timezone=True), server_default=func.now())
     end_date = db.Column(db.DateTime(timezone=True))
 
-    # foreign key of users so you can pull their artists and picks
-    # maybe query users based on users in users scores and then do another query for
-
-
-# create a
-# when creating league also create league users
-# create league
-# query league just created by name
-#
-#
-#
-
-# def
-#  creates league with data given
-# it queries that league based on its name to retreive id of league
-# then it does a loop through users and creates league users with league id as league id
-# queries users table for users artist picks and pick images and sets those for each league user
-#
-
 
 class LeagueUsers(db.Model):
     """This is the League Users Model"""
@@ -133,21 +114,6 @@ class LeagueUsers(db.Model):
     artist_names = db.Column(db.ARRAY(db.String(120)), nullable=True)
     artist_images = db.Column(db.ARRAY(db.String(120)), nullable=True)
     total_score = db.Column(db.Integer, nullable=False)
-
-    # foreign key is league id
-    # total score (dependent on specified league)
-    # username
-    # user artists
-    # user artist pics
-
-
-# scores for each user per league
-# id for league (foreign key)
-# primary key id
-# foreign key user id
-# from that you pull the arrays of pics and artist names
-# and score
-# and user name
 
 
 class TopArtists(db.Model):
@@ -324,14 +290,16 @@ def artists():
 @login_required
 def my_leagues():
     """Renders the my leagues page"""
-    user = User.query.filter_by(user_name=current_user.user_name).first()
+
     all_leagues = League.query.all()
     ongoing_leagues = []
     ended_leagues = []
     winner = LeagueUsers()
 
     for league_names in all_leagues:
+        user = User.query.filter_by(user_name=current_user.user_name).first()
         if user.user_name in league_names.user_names:
+
             if (
                 datetime.datetime.now(league_names.end_date.tzinfo)
                 < league_names.end_date
@@ -349,6 +317,7 @@ def my_leagues():
                 ongoing_leagues.append(
                     {
                         "league_name": league_names.league_name,
+                        "league_id": league_names.id,
                         "members": league_names.user_names,
                         "members_len": len(league_names.user_names),
                         "top_scorer": winner.user_name,
@@ -371,6 +340,7 @@ def my_leagues():
                 ended_leagues.append(
                     {
                         "league_name": league_names.league_name,
+                        "league_id": league_names.id,
                         "members": league_names.user_names,
                         "members_len": len(league_names.user_names),
                         "top_scorer": winner.user_name,
@@ -379,19 +349,17 @@ def my_leagues():
                     }
                 )
     if request.method == "POST":
-        users = League.query.filter_by(
-            league_name=request.form.get("btn-league-name")
-        ).all()
-        end_date = users[0].end_date
+        id = request.form.get("btn-league-name")
+        ind_league = League.query.filter_by(id=id).first()
+        end_date = ind_league.end_date
         end_date = end_date.strftime("%m/%d/%Y")
-        users_list = users[0].user_names
-        users = (
-            User.query.filter(User.user_name.in_(users_list))
-            .order_by(User.weekly_score.desc())
-            .all()
+        users_list = ind_league.user_names
+        users = LeagueUsers.query.filter_by(league_id=id).order_by(
+            LeagueUsers.total_score.desc()
         )
-        users_len = len(users)
-        curr_league = request.form.get("btn-league-name")
+
+        users_len = len(users_list)
+        curr_league = ind_league.league_name
 
         return render_template(
             "my_leagues_page.html",

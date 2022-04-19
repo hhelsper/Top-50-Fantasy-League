@@ -7,9 +7,10 @@
 # pylint: disable=too-many-locals
 
 import datetime
-import pytz
 import random
 import os
+import pytz
+
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func

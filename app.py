@@ -320,7 +320,7 @@ def artists():
     return render_template("artists.html", artists=top_artists, artist_len=artist_len)
 
 
-@app.route("/my_leagues")
+@app.route("/my_leagues", methods=["POST", "GET"])
 @login_required
 def my_leagues():
     """Renders the my leagues page"""
@@ -373,6 +373,28 @@ def my_leagues():
                         "top_score": winner.total_score,
                     }
                 )
+    if request.method == "POST":
+        users = League.query.filter_by(
+            league_name=request.form.get("btn-league-name")
+        ).all()
+        end_date = users[0].end_date
+        end_date = end_date.strftime("%m/%d/%Y")
+        users_list = users[0].user_names
+        users = (
+            User.query.filter(User.user_name.in_(users_list))
+            .order_by(User.weekly_score.desc())
+            .all()
+        )
+        users_len = len(users)
+        curr_league = request.form.get("btn-league-name")
+
+        return render_template(
+            "my_leagues_page.html",
+            users=users,
+            users_len=users_len,
+            curr_league=curr_league,
+            end_date=end_date,
+        )
 
     return render_template(
         "my_leagues.html",
@@ -450,14 +472,19 @@ def create_league():
         league_name = request.form.get("name")
 
         user_names_array = []
+        user = User.query.filter_by(user_name=current_user.user_name).first()
+        user_names_array.append(user.user_name)
+        scores = []
         for i in range(id_list_len):
             user = User.query.filter_by(user_id=id_list[i]).first()
             user_names_array.append(user.user_name)
+            scores.append(user.weekly_score)
 
         new_league = League(
             league_name=league_name,
             end_date=datetime.datetime.now() + datetime.timedelta(weeks=duration_int),
             user_names=user_names_array,
+            max_score=max(scores),
         )
         db.session.add(new_league)
         db.session.commit()
@@ -486,7 +513,7 @@ def create_league():
         db.session.add(cur_user_league_user)
         db.session.commit()
 
-        return render_template("my_leagues.html")
+        return redirect("/my_leagues")
 
 
 @bp.route("/get_artists", methods=["GET"])

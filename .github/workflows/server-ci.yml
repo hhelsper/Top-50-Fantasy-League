@@ -9,9 +9,11 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+env:
+  DB_URL: ${{ secrets.DB_URL }}
 
   # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+
        
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -42,14 +44,7 @@ jobs:
         
       - name: Lint files
         run: find . -name '*.py' -exec pylint {} \;
-        
-      - name: Setup .env
-        with: # Set Azure credentials secret as an input
-          DB_URL: ${{ secrets.DB_URL }}
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
           
       - name: Run tests
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
-        run: echo "$DB_URL"; python test.py
+  
+        run: python -m unittest test.py

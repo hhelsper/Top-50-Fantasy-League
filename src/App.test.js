@@ -2,16 +2,19 @@ import { render, cleanup, screen } from '@testing-library/react';
 import axios from 'axios';
 import React from 'react';
 import App from './App.js'
+import Select from './Select';
 import { fetchArtists } from "./utils.js"
+
 
 
 afterEach(cleanup);
 
 describe("render elements", () => {
-  it('Elements inner text to be in App function', () => {
+  it('Elements inner text to be in Select function', () => {
 
-    render(<App />);
+    render(<Select />);
     expect(screen.getByText("Select 5 Artists for your Bracket")).toBeInTheDocument();
+
     expect(screen.getByText("Save Bracket")).toBeInTheDocument();
 
   });

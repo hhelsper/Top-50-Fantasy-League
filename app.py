@@ -7,6 +7,7 @@
 # pylint: disable=too-many-locals
 
 import datetime
+import pytz
 import random
 import os
 
@@ -59,6 +60,7 @@ login_manager.login_view = "hello_world"
 login_manager.init_app(app)
 
 db = SQLAlchemy(app)
+utc = pytz.UTC
 
 
 class User(UserMixin, db.Model):
@@ -574,7 +576,9 @@ def weekly_database_update():
     for league_user in league_users:
         leag = League.query.filter_by(id=league_user.league_id).first()
 
-        if leag.end_date < datetime.now():
+        if leag.end_date.replace(tzinfo=utc) > datetime.datetime.now().replace(
+            tzinfo=utc
+        ):
 
             new_total_score = league_user.total_score
             for art in league_user.artist_names:
@@ -582,6 +586,7 @@ def weekly_database_update():
                     new_art = TopArtists.query.filter_by(artist_name=art).first()
                     new_total_score = new_total_score + new_art.ranking
             league_user.total_score = new_total_score
+
             db.session.commit()
 
 

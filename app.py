@@ -328,6 +328,7 @@ def my_leagues():
     all_leagues = League.query.all()
     ongoing_leagues = []
     ended_leagues = []
+    winner = LeagueUsers()
 
     for league_names in all_leagues:
         if user.user_name in league_names.user_names:
@@ -442,6 +443,7 @@ def get_users():
     search = request.args.get("search")
     print(search)
     all_users = User.query.all()
+    print(len(all_users))
     len_users = len(all_users)
     list_of_results = []
     for i in range(len_users):

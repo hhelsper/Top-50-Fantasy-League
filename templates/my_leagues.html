@@ -62,8 +62,8 @@
     <div class="card">
         <form method="POST" action="/my_leagues" style="background-color: black;">
             <button type="submit" name="btn-league-name" , value="{{ongoing_leagues[i].league_id}}" class="card-header"
-                style="border: none; font-size: 30pt; font-family: 'Staatliches', cursive; color: white; background-color: black;">
-                League Name: {{ongoing_leagues[i].league_name}}</button>
+                style="border: none; font-size: 32pt; font-family: 'Staatliches', cursive; color: white; background-color: black;">
+                {{ongoing_leagues[i].league_name}}</button>
         </form>
 
         <div class="card-body" style="background-color: rgb(204, 204, 204);">
@@ -71,21 +71,22 @@
                 Ends:
                 {{ongoing_leagues[i].duration}}</h5>
             <h5 class="card-title"
-                style="font-size: 26pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Members:&ensp;
+                style="font-size: 26pt; font-family: 'Staatliches', cursive; color: black;display: inline;">
+                Members:&ensp;
             </h5>
 
 
 
             {% for x in range(ongoing_leagues[i].members_len - 1)%}
-            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">
+            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches', cursive;">
                 {{ongoing_leagues[i].members[x]}},&ensp; </p>
 
             {% endfor %}
-            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">
+            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches', cursive;">
                 {{ongoing_leagues[i].members[ongoing_leagues[i].members_len - 1]}} </p>
             <br></br>
             <h6 class="card-title"
-                style="font-size: 29pt; font-family: 'Staatliches', cursive; color: rgb(190, 137, 22); display: inline;">
+                style="font-size: 29pt; font-family: 'Staatliches', cursive; color: rgb(165, 118, 16); display: inline;">
                 Top Scorer:
             </h6>
 
@@ -94,7 +95,7 @@
                 {{ongoing_leagues[i].top_scorer}}</p>
 
             <h6 class="card-title"
-                style="font-size: 20pt; font-family: 'Staatliches', cursive; color: rgb(190, 137, 22); display: inline;">
+                style="font-size: 20pt; font-family: 'Staatliches', cursive; color: rgba(0, 0, 0, 0.836); display: inline;">
                 &ensp;&ensp;
                 Score:&ensp;
             </h6>
@@ -123,40 +124,43 @@
     <div class="card">
         <form method="POST" action="/my_leagues" style="background-color: black;">
             <button type="submit" name="btn-league-name" , value="{{ongoing_leagues[i].league_id}}" class="card-header"
-                style="border: none; font-size: 30pt; font-family: 'Staatliches', cursive; color: white; background-color: black;">
-                League Name: {{ended_leagues[i].league_name}}</button>
+                style="border: none; font-size: 32pt; font-family: 'Staatliches', cursive; color: white; background-color: black;">
+                {{ended_leagues[i].league_name}}</button>
         </form>
 
         <div class="card-body" style="background-color: rgb(204, 204, 204);">
             <h5 style="font-size: 23pt; font-family: 'Staatliches', cursive; float: right; color: black;">
-                Ends:
+                Ended:
                 {{ended_leagues[i].duration}}</h5>
             <h5 class="card-title"
-                style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Members:&ensp;
+                style="font-size: 26pt; font-family: 'Staatliches', cursive; color: black;display: inline;">
+                Members:&ensp;
             </h5>
 
 
 
             {% for x in range(ended_leagues[i].members_len - 1)%}
-            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">
+            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches', cursive;">
                 {{ended_leagues[i].members[x]}},&ensp; </p>
 
             {% endfor %}
-            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">
+            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches', cursive;">
                 {{ended_leagues[i].members[ongoing_leagues[i].members_len - 1]}} </p>
             <br></br>
             <h6 class="card-title"
-                style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Top Scorer:
+                style="font-size: 29pt; font-family: 'Staatliches', cursive; color: rgb(165, 118, 16); display: inline;">
+                Winner:
             </h6>
 
 
-            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">&ensp;
+            <p style="display: inline; font-size:27pt; color: black;font-family: 'Staatliches', cursive;">&ensp;
                 {{ended_leagues[i].top_scorer}}</p>
             <br></br>
             <h6 class="card-title"
-                style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Top Score:&ensp;
+                style="font-size: 20pt;font-family: 'Staatliches', cursive; color: rgba(0, 0, 0, 0.836); display: inline;">
+                Score:&ensp;
             </h6>
-            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">
+            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches';">
                 {{ended_leagues[i].top_score}}</p>
 
 

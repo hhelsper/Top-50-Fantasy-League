@@ -62,26 +62,33 @@
         </form>
 
         <div class="card-body" style="background-color: rgb(204, 204, 204);">
+            <h5 style="font-size: 23pt; font-family: 'Staatliches', cursive; float: right; color: black;">
+                Ends:
+                {{ongoing_leagues[i].duration}}</h5>
             <h5 class="card-title"
-                style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Members:
+                style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Members:&ensp;
             </h5>
 
 
-            {% for members in ongoing_leagues[i].members %}
-            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'"> {{members}} </p>
+
+            {% for x in range(ongoing_leagues[i].members_len - 1)%}
+            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">
+                {{ongoing_leagues[i].members[x]}},&ensp; </p>
 
             {% endfor %}
+            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">
+                {{ongoing_leagues[i].members[ongoing_leagues[i].members_len - 1]}} </p>
             <br></br>
             <h6 class="card-title"
                 style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Top Scorer:
             </h6>
 
 
-            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">
+            <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">&ensp;
                 {{ongoing_leagues[i].top_scorer}}</p>
             <br></br>
             <h6 class="card-title"
-                style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Score:
+                style="font-size: 20pt; font-family: 'Acme', sans-serif; color: black;display: inline;">Top Score:&ensp;
             </h6>
             <p style="display: inline; font-size:20pt; color: black;font-family: 'Staatliches'">
                 {{ongoing_leagues[i].top_score}}</p>

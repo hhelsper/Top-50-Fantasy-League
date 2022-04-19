@@ -339,9 +339,9 @@ def my_leagues():
                 league_users = LeagueUsers.query.filter_by(
                     league_id=league_names.id
                 ).all()
+                max_score = 0
                 for user in league_users:
 
-                    max_score = 0
                     if user.total_score > max_score:
                         winner = user
                         max_score = user.total_score
@@ -350,8 +350,10 @@ def my_leagues():
                     {
                         "league_name": league_names.league_name,
                         "members": league_names.user_names,
+                        "members_len": len(league_names.user_names),
                         "top_scorer": winner.user_name,
                         "top_score": winner.total_score,
+                        "duration": league_names.end_date.strftime("%m/%d/%Y"),
                     }
                 )
 
@@ -370,8 +372,10 @@ def my_leagues():
                     {
                         "league_name": league_names.league_name,
                         "members": league_names.user_names,
+                        "members_len": len(league_names.user_names),
                         "top_scorer": winner.user_name,
                         "top_score": winner.total_score,
+                        "duration": league_names.end_date.strftime("%m/%d/%Y"),
                     }
                 )
     if request.method == "POST":

@@ -4,6 +4,7 @@
 # pylint: disable=invalid-name
 # pylint: disable=no-else-return
 # pylint: disable=too-few-public-methods
+# pylint: disable=too-many-locals
 
 import datetime
 import random
@@ -246,12 +247,6 @@ def index():
     return render_template("index.html")
 
 
-@bp.errorhandler(404)
-def not_found(e):
-    """Probably not needed"""
-    return render_template("index.html")
-
-
 @app.route("/leader_board")
 @login_required
 def leader_board():
@@ -349,12 +344,12 @@ def my_leagues():
                     }
                 )
     if request.method == "POST":
-        id = request.form.get("btn-league-name")
-        ind_league = League.query.filter_by(id=id).first()
+        league_id = request.form.get("btn-league-name")
+        ind_league = League.query.filter_by(id=league_id).first()
         end_date = ind_league.end_date
         end_date = end_date.strftime("%m/%d/%Y")
         users_list = ind_league.user_names
-        users = LeagueUsers.query.filter_by(league_id=id).order_by(
+        users = LeagueUsers.query.filter_by(league_id=league_id).order_by(
             LeagueUsers.total_score.desc()
         )
 
@@ -487,7 +482,7 @@ def create_league():
         db.session.add(cur_user_league_user)
         db.session.commit()
 
-        return redirect("/my_leagues")
+    return redirect("/my_leagues")
 
 
 @bp.route("/get_artists", methods=["GET"])
@@ -539,7 +534,7 @@ def deleted_comments():
 
 def weekly_database_update():
     """This is the weekly database update"""
-    # print('This job is run every monday at 11pm.')
+
     names_lists, img_lists = spotify_api()
     names_lists_len = len(names_lists)
 
@@ -574,6 +569,20 @@ def weekly_database_update():
 
         user[x].weekly_score = new_weekly_score
         db.session.commit()
+
+    league_users = LeagueUsers.query.all()
+    for league_user in league_users:
+        leag = League.query.filter_by(id=league_user.league_id).first()
+
+        if leag.end_date < datetime.now():
+
+            new_total_score = league_user.total_score
+            for art in league_user.artist_names:
+                if TopArtists.query.filter_by(artist_name=art).first() is not None:
+                    new_art = TopArtists.query.filter_by(artist_name=art).first()
+                    new_total_score = new_total_score + new_art.ranking
+            league_user.total_score = new_total_score
+            db.session.commit()
 
 
 sched = BackgroundScheduler()

@@ -22,7 +22,24 @@
     <img src="static/b&wBill.jpeg" alt="..." style="width: 300px; height: 200px;">
     <div class="column-is-4-is-offset-4">
         <center>
-            <h3 class="title" style="color: white; font-family: 'Staatliches', cursive; font-size: 40pt;">Signup</h3>
+
+            <h3 class="title" style="color: white; font-family: 'Staatliches', cursive; font-size: 40pt;">Sign Up</h3>
+        </center>
+        <div class="box">
+            {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}.
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+            {% endwith %}
+
 
 
             <div class="box">

@@ -17,7 +17,7 @@
     "react-flash-message": "^1.0.8",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.0",
+    "react-scripts": "^5.0.0",
     "util": "^0.12.4",
     "web-vitals": "^2.1.4"
   },

@@ -55,7 +55,7 @@ function Select() {
         <div className="App">
             <img src={billboard} alt="..." style={{ width: '450px', height: '200px' }} />
             <center>
-                <h1 className='head'>Select 5 Artists for
+                <h1 className='head' style={{ fontSize: "45pt" }}>Select 5 Artists for
                     your
                     Bracket
                 </h1>

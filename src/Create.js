@@ -66,6 +66,7 @@ function Create() {
                     <Nav.Link to="/leader_board" href="/leader_board">Leader Board</Nav.Link>
                     <Nav.Link to="/my_leagues" href="/my_leagues">My Leagues</Nav.Link>
                     <Nav.Link to="#" href="#">Create A League</Nav.Link>
+                    <Nav.Link to="/about_us" href="/about_us">About Us</Nav.Link>
                     <Nav.Link id="navbar-right" to="/logout" href="/logout">Logout</Nav.Link>
                 </Nav>
 

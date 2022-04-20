@@ -432,6 +432,13 @@ def get_users():
     return jsonify(list_of_results)
 
 
+@app.route("/about_us")
+@login_required
+def about_us():
+    """Renders about us page"""
+    return render_template("about_us.html")
+
+
 @app.route("/create_league", methods=["POST", "GET"])
 def create_league():
     """Function to create a league"""

@@ -9,7 +9,7 @@ If you are interested [CLICK HERE](https://whispering-garden-45374.herokuapp.com
 
 ## Video Walkthrough
 
-Here's a walk through of our sprint 1 website:
+Here's a walk through of our Sprint 1 website:
 
 <img src='Top50.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 

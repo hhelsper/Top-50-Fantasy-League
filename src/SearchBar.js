@@ -28,19 +28,17 @@ const SearchBar = ({ onSearchSubmit, clearResults }) => {
     return (
         <div className='searchbar' style={{ backgroundColor: 'rgba(255, 255, 255, .13)' }}>
 
-            <center><Row>
-                <InputGroup style={{ marginLeft: '15.3rem' }}>
 
-                    <InputGroup.Text style={{ marginLeft: '0px' }}>
 
-                        <MDBIcon icon="search" /></InputGroup.Text>
-                    <Col xs={7}>
-                        <Form.Control size="lg" type="text" placeholder="Search users" onChange={e => setDebouncedTerm(e.target.value)}
-                            value={debouncedTerm} />
-                    </Col>
-                </InputGroup>
-            </Row>
-            </center>
+
+
+
+            <Form.Control size="lg" type="text" placeholder="Search users to add to your league" onChange={e => setDebouncedTerm(e.target.value)}
+                value={debouncedTerm} />
+
+
+
+
 
 
         </div>

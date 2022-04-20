@@ -1,3 +1,7 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+
 .box {
     background-color: rgb(245, 245, 245);
     padding: 25px;
@@ -39,7 +43,7 @@
     color: black;
     font-size: 25px;
     box-shadow: 0 0 5px rgba(14, 13, 13, 0.747);
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: 'Lato', sans-serif;
 
 
 }

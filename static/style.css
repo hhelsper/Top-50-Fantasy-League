@@ -19,6 +19,8 @@ body {
     gap: 0px;
 }
 
+
+
 .item {
     padding: 4px;
 }
@@ -51,7 +53,7 @@ img {
   }
 
   .navbar-right{
-    position: fixed;
-    top: 29px;
-    right: 40px;/*pixels away from the right of the navbar*/
+    position: absolute;
+    top: 15px;
+    right: 26px;/*pixels away from the right of the navbar*/
   }

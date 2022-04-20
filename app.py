@@ -245,7 +245,6 @@ def profile():
 
         for i in range(leagues_len):
             league_list.append({"name": leagues[i].league_name})
-    print(leagues_len)
 
     return render_template(
         "profile.html",
@@ -279,8 +278,6 @@ def leader_board():
         if users[i].user_name == cur_user.user_name:
             cur_user_rank = i
             break
-
-    print(cur_user.user_name)
 
     return render_template(
         "leader_board.html",
@@ -428,9 +425,9 @@ def get_artists_helper(artist_info):
 def get_users():
     """Search users based on search"""
     search = request.args.get("search")
-    print(search)
+
     all_users = User.query.all()
-    print(len(all_users))
+
     len_users = len(all_users)
     list_of_results = []
     for i in range(len_users):

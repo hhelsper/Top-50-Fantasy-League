@@ -128,9 +128,23 @@ function Create() {
 
             </form>
             <br></br>
-            <center><SearchBar onSearchSubmit={onSearchSubmit} clearResults={clearResults} /></center>
 
-            {noResults &&
+            <Form.Group className="mb-3" controlId="formBasicEmail" style={{}}>
+                <center>
+                    <Row>
+                        <Form.Label column="lg" lg={2} className='head' style={{ fontSize: "20pt", marginLeft: '6rem' }}>
+                            Search
+                        </Form.Label>
+                        <Col xs={7} style={{ width: "800px" }}>
+                            <SearchBar onSearchSubmit={onSearchSubmit} clearResults={clearResults} />
+                        </Col>
+                    </Row>
+                </center>
+            </Form.Group>
+
+
+            {
+                noResults &&
                 <center><p className='no-results'>
                     No results found.
                 </p></center>
@@ -139,7 +153,7 @@ function Create() {
                 {renderedQuotes}
             </div>
 
-        </div>
+        </div >
     );
 };
 
@@ -148,7 +162,7 @@ function User({ user, onSelect, onRemove }) {
     return (
         <>{!show &&
 
-            <Card style={{ boxShadow: '10 10px 15px 8px rgba(0,0,0,0.06)', backgroundColor: "rgb(238, 217, 26)", marginLeft: '19rem', marginRight: '22rem' }}>
+            <Card style={{ boxShadow: '10 10px 15px 8px rgba(0,0,0,0.06)', backgroundColor: "rgb(238, 217, 26)", marginLeft: '21rem', marginRight: '22rem' }}>
 
                 <Card.Body>
                     <Card.Title className='head' style={{ fontSize: "40pt" }}> {user.user_name}</Card.Title>
@@ -164,7 +178,7 @@ function User({ user, onSelect, onRemove }) {
         }
             {show &&
 
-                <Card style={{ boxShadow: '10 10px 15px 8px rgba(0,0,0,0.06)', marginLeft: '19rem', marginRight: '22rem' }}>
+                <Card style={{ boxShadow: '10 10px 15px 8px rgba(0,0,0,0.06)', marginLeft: '21rem', marginRight: '22rem' }}>
 
                     <Card.Body>
                         <Card.Title className='head' style={{ fontSize: "40pt" }}> {user.user_name}</Card.Title>

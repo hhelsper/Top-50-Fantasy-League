@@ -19,6 +19,12 @@ body {
     gap: 0px;
 }
 
+.leagues{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 45px;
+    margin-left: 55px;
+}
 
 
 .item {

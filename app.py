@@ -13,6 +13,7 @@ import pytz
 
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.sql import func
 
 from flask_login import (
@@ -101,7 +102,7 @@ class League(db.Model):
     __tablename__ = "league"
     id = db.Column(db.Integer, primary_key=True)
     league_name = db.Column(db.String(120), nullable=False)
-    user_names = db.Column(db.ARRAY(db.String(120)), nullable=True)
+    user_names = db.Column(ARRAY(db.String(120)), nullable=True)
     max_score = db.Column(db.Integer, nullable=True)
     winner = db.Column(db.String(120), nullable=True)
     time_created = db.Column(db.DateTime(timezone=True), server_default=func.now())
@@ -231,6 +232,20 @@ def login_post():
 def profile():
     """Function to render user profile"""
     user = User.query.filter_by(user_name=current_user.user_name).first()
+    leagues_len = 0
+    league_list = []
+    if (
+        League.query.filter(League.user_names.contains([user.user_name])).all()
+        is not None
+    ):
+        leagues = League.query.filter(
+            League.user_names.contains([user.user_name])
+        ).all()
+        leagues_len = len(leagues)
+
+        for i in range(leagues_len):
+            league_list.append({"name": leagues[i].league_name})
+    print(leagues_len)
 
     return render_template(
         "profile.html",
@@ -238,6 +253,8 @@ def profile():
         artist_images=user.artist_images,
         username=current_user.user_name,
         weekly_sc=user.weekly_score,
+        leagues=league_list,
+        leagues_len=leagues_len,
     )
 
 
@@ -533,12 +550,28 @@ def deleted_comments():
 
         user = User.query.filter_by(user_name=current_user.user_name).first()
 
+    leagues_len = 0
+    league_list = []
+    if (
+        League.query.filter(League.user_names.contains([user.user_name])).all()
+        is not None
+    ):
+        leagues = League.query.filter(
+            League.user_names.contains([user.user_name])
+        ).all()
+        leagues_len = len(leagues)
+
+        for i in range(leagues_len):
+            league_list.append({"name": leagues[i].league_name})
+
     return render_template(
         "profile.html",
         artist_names=user.artist_names,
         artist_images=user.artist_images,
         username=current_user.user_name,
         weekly_sc=user.weekly_score,
+        leagues_len=leagues_len,
+        leagues=league_list,
     )
 
 

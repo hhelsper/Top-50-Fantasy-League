@@ -46,8 +46,15 @@
     <br>
     <center>
         <h1 style="font-size: 60pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);">{{curr_league}}</h1>
-        <h1 style="font-size: 30pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);"> Ends: {{end_date}}
+        {% if ended %}
+        <h1 style="font-size: 30pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);"> Ended: {{end_date}}
             </h2>
+            {% else %}
+            <h1 style="font-size: 30pt; font-family: 'Staatliches', cursive; color: rgb(22, 22, 22);"> Ends:
+                {{end_date}}
+                </h2>
+
+                {% endif %}
     </center>
     <br>
     {% for i in range(users_len) %}

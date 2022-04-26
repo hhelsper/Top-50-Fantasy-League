@@ -363,7 +363,13 @@ def my_leagues():
     if request.method == "POST":
         league_id = request.form.get("btn-league-name")
         ind_league = League.query.filter_by(id=league_id).first()
+        ended = False
         end_date = ind_league.end_date
+
+        if end_date.replace(tzinfo=utc) < datetime.datetime.now().replace(tzinfo=utc):
+            print("made it")
+            ended = True
+
         end_date = end_date.strftime("%m/%d/%Y")
         users_list = ind_league.user_names
         users = LeagueUsers.query.filter_by(league_id=league_id).order_by(
@@ -372,6 +378,7 @@ def my_leagues():
 
         users_len = len(users_list)
         curr_league = ind_league.league_name
+        print(ended)
 
         return render_template(
             "my_leagues_page.html",
@@ -379,6 +386,7 @@ def my_leagues():
             users_len=users_len,
             curr_league=curr_league,
             end_date=end_date,
+            ended=ended,
         )
 
     return render_template(
@@ -398,11 +406,11 @@ def logout():
     return render_template("login.html", modal="Thanks for playing! See you next time.")
 
 
-@app.route("/paypal")
-@login_required
-def paypal():
-    """Path to paypal portal that may be used"""
-    return render_template("paypal.html")
+# @app.route("/paypal")
+# @login_required
+# def paypal():
+#     """Path to paypal portal that may be used"""
+#     return render_template("paypal.html")
 
 
 def get_artists_helper(artist_info):

@@ -391,8 +391,8 @@ def my_leagues():
 
     return render_template(
         "my_leagues.html",
-        ongoing_leagues=ongoing_leagues,
-        ended_leagues=ended_leagues,
+        ongoing_leagues=list(reversed(ongoing_leagues)),
+        ended_leagues=list(reversed(ended_leagues)),
         ongoing_length_league=len(ongoing_leagues),
         ended_length_league=len(ended_leagues),
     )
